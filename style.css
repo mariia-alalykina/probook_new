@@ -1,0 +1,1683 @@
+
+/**********************************************  INDEX.HTML *********************************************/
+#index
+{
+    background-color: #fcf5dd;
+    height: 100%;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0;
+}
+
+footer
+{
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 4%;
+    bottom: 0;
+    background-color: #9933ff;
+    opacity: 0.5;
+    text-align: center;
+}
+
+footer img
+{
+    vertical-align: middle;    
+}
+
+footer span
+{
+    vertical-align: middle;
+}
+
+header
+{
+    width: 100%;
+    height: auto;
+    max-width: 1280px;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    background: #fcf5dd url("images/head_texture.png");
+    background-blend-mode: overlay;
+    border-bottom: 1px solid rgba(180, 180, 180, 0.651);
+    
+}
+
+.site_name
+{
+    width: 25%;
+    max-width: 960px;
+}
+
+.site_name img
+{   
+    position: relative;
+    display: inline-block;
+    width: 60%;
+    height: auto;
+    left: 15%;
+}
+
+.hor_menu 
+{
+    display: inline-block;
+    position: relative;
+    width: 96%;
+    max-width: 960px;
+}
+
+.hor_menu ul 
+{
+    position: relative;
+    list-style: none;
+    display: inline-block;
+    width: 55%;
+    height: auto;
+    margin: 2% 0 0 0;
+    text-align: left;
+    padding: 0;
+}
+
+.hor_menu ul:last-child
+{
+    position: relative;
+    list-style: none;
+    display: inline-block;
+    width: 11%;
+    height: auto;
+    margin: 2% 0 0 30%;
+    text-align: left;
+    padding: 0;
+}
+
+.hor_menu li 
+{
+    display: inline-block;
+}
+
+.hor_menu li::after 
+{
+    content: " | ";
+    color: #336633;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.hor_menu li:last-child::after 
+{
+    content: none;
+}
+
+.hor_menu a 
+{
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    margin: 0 0.7em 0 0.7em;
+    font-size: 1em;
+    color: #336633;
+    font-weight: 300;
+}
+
+.under_header
+{
+    width: 100%;
+    height: auto;
+    max-width: 1280px;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    background: #fcf5dd url("images/head_texture.png");
+    background-blend-mode: overlay;
+    border-bottom: 1px solid rgba(180, 180, 180, 0.651);
+    box-shadow: 0 3px 5px 0.1px rgba(180, 180, 180, 0.596);
+}
+
+.catalog
+{
+    display: inline-block;
+    position: relative;
+    width: 25%;
+    max-width: 960px;
+    overflow: visible;
+}
+
+.catalog_btn
+{
+    cursor: pointer;
+    font-size: 16px;    
+    border: none;   
+    outline: none;
+    color: #ffcc99;
+    padding: 2% 7%;
+    background-color: rgba(51, 153, 51, 0.801);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+    left: 17%;
+    border-radius: 5px;
+}
+
+.catalog_btn:hover
+{
+    background-color: rgba(92, 161, 92, 0.842);
+}
+
+.drop_catalog
+{
+    display: none;
+    position: absolute;
+    background-color: #ccffcc;
+    width: 70%;
+    min-width: 160px;
+    left: 17%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
+.drop_catalog a
+{
+    float: none;
+    color: #336633;
+    padding: 2% 3%;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    font-weight: 300;
+    display: block;
+    text-align: left;
+}
+
+.drop_catalog a:hover
+{
+    background-color: #99cc99;
+    cursor: pointer;
+}
+
+.show
+{
+    display: block;
+}
+
+.searching
+{
+    display: inline-block;
+    position: relative;
+    width: 40%;
+    max-width: 960px;
+}
+
+.searching form,
+.searching input,
+.searching button
+{
+    box-sizing: border-box;
+}
+
+.searching form 
+{
+  position: relative;
+  display: inline-block;
+  width: 80%;
+  height: 27px;
+  background-color: white;
+  border-radius: 5px;
+  margin: 3%;
+}
+
+.searching input, 
+.searching button 
+{
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.searching input 
+{
+  width: 100%;
+  height: 50%;
+  padding-left: 15px;
+  vertical-align: middle;
+}
+
+.searching button 
+{
+  height: 100%;
+  width: 12%;
+  position: relative;
+  display: inline-block;
+  top: -65%;
+  right: -88%;
+  cursor: pointer;
+}
+
+.searching button::before 
+{
+  content: url(/images/loupe.png);
+  padding-top: 1%;
+}
+
+input::-moz-placeholder
+{
+    color: #a4a5a3; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1.2em;
+}
+
+input::-webkit-input-placeholder 
+{
+    color: #a4a5a3; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1.2em;
+}
+
+input::-ms-input-placeholder
+{
+    color: #a4a5a3; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1.2em;
+}
+
+#img_basket
+{
+    width: 10%;
+    max-width: 960px;
+    display: inline-block;
+    position: relative;
+    left: 5%;
+}
+
+#img_basket img
+{
+    position: relative;
+    display: inline-block;
+    width: 30%;
+    height: auto;
+}
+
+#img_basket img:hover
+{
+    opacity: 0.6;
+}
+
+.img_acc
+{
+    width: 10%;
+    max-width: 960px;
+    display: inline-block;
+    position: relative;
+}
+
+.img_acc img
+{
+    position: relative;
+    display: inline-block;
+    width: 30%;
+    height: auto;
+}
+
+.img_acc img:hover
+{
+    opacity: 0.6;
+}
+
+.advertisement
+{
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1280px;
+    display: inline-block;
+    position: relative;
+    margin-top: 1%;
+}
+
+.adv
+{
+    display: none;
+}
+
+.prev,
+.next
+{
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    top: 16%;
+    width: auto;
+    margin-top: -5%;
+    padding: 11% 1%;
+    color: #336633;
+    font-weight:100;
+    font-size: 5em;
+    transition: 0.6s ease;
+    user-select: none;
+}
+
+.next
+{
+    right: 0;
+}
+
+.prev:hover, 
+.next:hover 
+{
+    background-color: #3366335e;
+}
+
+/************************************************ DELIVERY.HTML ********************************************/
+
+.del_and_pay
+{
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 1280px;
+    border-bottom: 1px solid #3366336e;
+}
+
+.del
+{
+    position: relative;
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
+   /*  background-color: lightcoral; */
+}
+
+.pay 
+{
+    position: relative;
+    display: inline-block;
+    width: 49%;
+  /*   background-color: lightgreen; */
+    border-left: 1px solid #3366336e;
+}
+
+.car
+{
+    width: 15%;
+    display: inline-block;
+    position: relative;
+    left: 41%;
+}
+
+.car img
+{
+    margin-top: 65%;
+    width: 85%;
+}
+
+.del h3,
+.pay h3
+{
+    width: 50%;
+    display: block;
+    position: relative;
+    left: 24%;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #330066;
+}
+
+.del p,
+.pay p
+{
+    width: 80%;
+    display: block;
+    position: relative;
+    left: 13%;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    color: #330066;
+    margin-bottom: 3%;
+}
+
+.cash
+{
+    width: 15%;
+    display: block;
+    position: relative;
+    left: 43%;
+}
+
+.cash img
+{
+    margin-top: 25%;
+    width: 85%;
+}
+
+.pay p > span
+{
+    font-weight: 600;
+}
+
+/********************************************** LOGIN.HTML ************************************************/
+
+.authorization
+{
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 1280px;
+}
+
+.log_in
+{
+    display: inline-block;
+    position: relative;
+    width: 49%;
+}
+
+.registr
+{
+    display: inline-block;
+    position: relative;
+    width: 49%;
+    margin-bottom: 5%;
+}
+
+#log
+{
+  display: inline-block;
+  position: relative;
+  border: 2px solid #336633;
+  border-radius: 7px;
+  width: 50%;
+  left: 40%;
+  height: auto;
+
+  vertical-align:text-bottom;
+  background-color: white;
+}
+  
+#reg
+{
+  display: inline-block;
+  position: relative;
+  border: 2px solid #336633;
+  border-radius: 7px;
+  width: 50%;
+  left: 10%;
+  height: auto;
+  margin-top: 10%;
+  background-color: white;
+}
+
+input[type=email], input[type=password], input[type=text]
+{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid rgb(153, 149, 149);
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+input::-moz-placeholder
+{
+    color: #999999; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1.2em;
+    width: 100%;
+    position: relative;
+}
+
+input::-webkit-input-placeholder 
+{
+    color: #999999; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1.2em;
+    width: 100%;
+    position: relative;
+}
+
+input::-ms-input-placeholder
+{
+    color: #999999; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1.2em;
+    width: 100%;
+    position: relative;
+}
+  
+.authorization label,
+.registr label
+{
+    color: #336633; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#reg button,
+#log button 
+{
+  background-color: #e6723d;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1.2em;
+  position: relative;
+  overflow: hidden;
+}
+  
+#reg button:hover,
+#log button:hover 
+{
+  opacity: 0.85;
+}
+
+.container 
+{
+  padding: 16px;
+}
+
+/********************************************** CATALOG.HTML **********************************************/
+
+.main_catalog
+{
+    position: relative;
+    display: block;
+    width: 96%;
+    max-width: 1280px;
+}
+
+.sort
+{
+    position: relative;
+    display: block;
+    width: 35%;
+    left: 15%;
+    margin-top: 3%;
+}
+
+.sort label
+{
+    color: #330066; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    width: 100%;
+    position: relative;
+    vertical-align: bottom;
+}
+
+.sort select
+{
+    border-radius: 7px;
+    padding: 1%;
+    width: 45%;
+    border: 1px solid #999999;
+    color: #330066; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 0.9em;
+    margin-top: 1%;
+    overflow: hidden;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
+}
+
+.sort input[type=submit]
+{
+    border: 1px solid #999999;
+    background-color: white;
+    border-radius: 10px;
+    color: #330066; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.9em;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0.5%;
+    margin-top: 1%;
+}
+
+.prod_card
+{
+    position: relative;
+    display: inline-block;
+    width: 12%;
+    height: auto;
+    left: 7%;
+    margin-top: 3%;
+    margin-right: 8%;
+    padding: 1% 2%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 1px solid #336633;
+    border-radius: 10px;
+}
+
+.prod_card a
+{
+    text-decoration: none;
+}
+
+.img_book_card
+{
+    width: 80%;
+    max-width: 280px;
+    display: inline-block;
+    position: relative;
+    left: 12%;
+}
+
+.img_book_card img
+{
+    width: 90%;
+    height: auto;
+
+}
+
+.prod_card .cost
+{
+    position: relative;
+    color: #336633; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.3em;
+    margin-top: 2%;
+    margin-bottom: 0;
+}
+
+.prod_card .book_name
+{
+    position: relative;
+    color: #330066; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 0.9em;
+    overflow: hidden;
+    margin-top: 3%;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow:ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 0;
+}
+
+.prod_card .book_author
+{
+    position: relative;
+    color: #330066; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 0.8em;
+    overflow: hidden;
+    margin-top: 5%;
+    margin-bottom: 0;
+    opacity: 0.75;
+}
+
+.prod_card button
+{
+    position: relative;
+    background-color: #cc6600da;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 0.9em;
+    color: white;
+    margin-top: 5%;
+    cursor: pointer;
+    text-align: center;
+    padding: 2% 3%;
+    box-shadow: 0 4px 5px 0px rgba(0, 0, 0, 0.582) ;
+    overflow:hidden;
+}
+
+/************************************************* BOOK.HTML *********************************************/
+#book_page,
+.blog_content,
+.news_content
+{
+    position: relative;
+    display: block;
+    width: 80%;
+    max-width: 1280px;
+    background: #ffedca url("images/book_page_texture.png");
+    background-blend-mode: soft-light;
+    left: 10%;
+    margin-top: 2%;
+}
+
+.img_book_page
+{
+    position: relative;
+    display: inline-block;
+    width: 30%;
+    height: auto;
+    vertical-align: top;
+    margin-bottom: 6%;
+}
+
+.img_book_page img
+{
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    left: 25%;
+    margin-top: 20%;
+    box-shadow: -5px 5px 5px 0px rgba(0, 0, 0, 0.582), -2.5px 4px 2.5px 3px rgba(255, 255, 255, 0.8);
+}
+
+#book_content
+{
+    position: relative;
+    display: inline-block;
+    width: 67%;
+    height: auto;
+}
+
+.main_inform
+{
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    margin-top: 4%;
+}
+
+.main_inform p
+{
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+    color: #330066;
+}
+
+.main_inform p:last-child
+{
+    margin-top: 3%;
+}
+
+.main_inform b
+{
+    font-weight: 600;
+}
+
+.price_info
+{
+    position: relative;
+    display: inline-block;
+    width: 45%;
+    vertical-align: top;
+    margin-top: 5%;
+}
+
+#book_content .price_info .availability
+{
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.9em;
+    width: 100%;
+    color: #339933;
+    left: 5%;
+    margin-top: 4%;
+    margin-bottom: 0;
+}
+
+#book_content .price_info .price
+{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    left: 5%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.4em;
+    color: #297929;
+    margin-top: 4%;
+    margin-bottom: 0;
+}
+
+#book_content .price_info button
+{
+    position: relative;
+    display: inline-block;
+    width: 80%;
+    left: 5%;
+    margin-top: 12%;
+    border: none;
+    background-color: #ff9933b0;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.3em;
+    padding: 2% 3%;
+    box-shadow:  0 3px 5px 0px rgba(0, 0, 0, 0.65), inset 0 -1px 5px 1px rgba(255, 255, 255, 0.5), inset 0 1px 4px 0px rgba(0,0,0,0.5);
+    color: #336633;
+    cursor: pointer;
+}
+
+#book_content .price_info button:hover
+{
+    opacity: 0.8;
+}
+
+#book_content .description
+{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 0.9em;
+    color: #330066;
+}
+
+#book_content .description b
+{
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+/*************************************************** BLOG.HTML ***********************************************/
+
+.blog_content,
+.news_content
+{
+    width: 70%;
+    max-width: 750px;
+    left: 20%;
+    background: rgba(255, 255, 255, 0.4);
+    background-blend-mode: unset;
+}
+
+.blog_content .post,
+.news_content .news
+{
+    position: relative;
+    display: inline-block;
+    width: 85%;
+    left: 4.5%;
+    padding: 4% 3%;
+    border: 1px solid #336633;
+    border-radius: 10px;
+    margin-top: 3%;
+    margin-bottom: 5%;
+}
+
+.post .date,
+.news .date
+{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 0.8em;
+    color: #330066;
+}
+
+.post .galery table
+{
+    position: relative;
+    display: inline-block;
+    left: 20%;
+    width: 60%;
+}
+
+.post .galery h2,
+.news_header h2
+{
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8em;
+    color: #003300;
+}
+
+.post .galery td
+{
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    width: 27%;
+    left: 8%;
+}
+
+.post .galery td img
+{
+    width: 100%;
+    height: auto;
+    margin: 0;
+}
+
+.post .galery tr:last-child td
+{
+    left: 20%;
+}
+
+.post .preview
+{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-size: 1.2em;
+    font-weight: 300;
+    font-style: italic;
+    color: #330066;
+}
+
+.post .post_book
+{
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+.post_book h3
+{
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.4em;
+    color: #003300;
+}
+
+.post_book img
+{
+    width: 20%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    float: left;
+}
+
+.post_book p
+{
+    font-size: 1.1em;
+    color: #003300;
+}
+
+.post a
+{
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
+    color: #330066;
+}
+
+.post a p
+{
+    width: 10%;
+    padding: 1%;
+    margin-bottom: 0;
+    border-radius: 2px;
+}
+
+.post a p:hover
+{
+    background-color: #33006650;    
+}
+
+/************************************************** NEWS.HTML *************************************************/
+
+.news_header img
+{
+    display: inline-block;
+    position: relative;
+    width: 30%;
+    left: 35%;
+}
+
+.news_header h2
+{
+    color: rgb(218, 88, 49);
+}
+
+.news_text
+{
+    display: inline-block;
+    position: relative;
+    width: 96%;
+}
+
+.news_text p
+{
+    font-size: 1.1em;
+    color: #003300;
+}
+
+.news_text span
+{
+    font-weight: bold;
+    color: #e6723d;
+}
+
+.news_text p:last-child
+{
+    font-family: 'Montserrat', sans-serif;
+    color: #330066;
+    width: 55%;
+    background-color: #ffcc99; 
+    padding-left: 2%;
+}
+
+/************************************************ CONTACTS.HTML *********************************************/
+
+.contacts_info
+{
+    display: inline-block;
+    position: relative;
+    width: 50%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.4);
+    background-blend-mode: unset;
+    left: 22%;
+    margin-top: 5%;
+    border: 1px solid #003300;
+    border-radius: 10px;
+    padding: 3%;
+}
+
+.address
+{
+    display: inline-block;
+    position: relative;
+    width: 45%;
+}
+
+.address h4
+{
+    display: inline-block;
+    width: 80%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #336633;
+    margin: 0;
+}
+
+.address strong,
+.connect strong
+{
+    font-family: 'Roboto';
+    color: #336633;
+}
+
+.address p,
+.connect p
+{
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    width: 70%;
+    
+}
+
+.address p:last-child
+{
+    margin-bottom: 0;
+}
+
+.connect
+{
+    display: inline-block;
+    position: relative;
+    width: 45%;
+    margin-left: 9%;
+    vertical-align: text-bottom;
+}
+
+/*************************************************** ABOUT.HTML ********************************************/
+.about_us
+{
+    display: inline-block;
+    position: relative;
+    max-width: 960px;
+    width: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    background-blend-mode: unset;
+    padding: 1% 4%;
+    border: 1px solid #003300;
+    border-radius: 10px;
+    left: 20%;
+    margin-top: 3%;
+}
+
+.about_us img
+{
+    display: inline-block;
+    position: relative;
+    width: 50%;
+    max-width: 500px;
+    left: 25%;
+}
+
+.about_us p
+{
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin-bottom: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: #003300;
+}
+
+.about_us p:last-child
+{
+    margin-bottom: 3%;
+    font-style: italic;
+}
+
+.about_us span
+{
+    font-weight: 700;
+}
+
+/************************************************ BASKET.HTML ********************************************/
+
+#basket
+{
+    width: 750px;
+    height: auto;
+    margin: 60px auto;
+    background: rgba(255, 255, 255, 0.4);
+    background-blend-mode: unset;
+    box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
+    border-radius: 6px;
+    border: 1px solid #999999;
+   
+    display: flex;
+    flex-direction: column;
+}
+
+.basket_head 
+{
+    height: 20px;
+    border-bottom: 1px solid #999999;
+    padding: 20px 30px;
+    color: #003300;
+    font-size: 1.3em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+   
+.item 
+{
+    padding: 20px 30px;
+    height: 150px;
+    display: flex;
+}
+   
+.button_del
+{
+    position: relative;
+    padding-top: 30px;
+    margin-right: 25px;
+}
+
+.delete_btn
+{
+    display: inline-block;
+    cursor: pointer; 
+    width: 20px;
+    height: 19px;
+    background: url("images/cross.png") no-repeat center;
+}
+
+.basket_image
+{
+    width: 15%;
+    margin-right: 4%;
+}
+
+.basket_image img
+{
+    width: 95%;
+}
+   
+.description 
+{
+    padding-top: 0;
+    margin-right: 30px;
+    width: 270px;
+}
+   
+.description span 
+{
+    display: block;
+    font-size: 1em;
+    font-family: 'Montserrat', sans-serif;
+    color: #003300;
+    font-weight: 300;
+}
+   
+.description span:first-child 
+{
+    margin-bottom: 5px;
+}
+
+.description span:last-child 
+{
+    margin-top: 8px;
+    font-weight: 400;
+}
+
+.quantity 
+{
+    padding-top: 20px;
+    margin-right: 50px;
+}
+
+.quantity p
+{
+    display: inline-block;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    color: #330066;
+    font-weight: 300;
+    margin: 15% 0 0 0;
+}
+
+#img_basket span
+{
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    color: #330066;
+}
+
+.total_price 
+{
+    width: 83px;
+    padding-top: 27px;
+    margin-left: 0px;
+    text-align: center;
+    font-size: 1.1em;
+    font-family: 'Montserrat', sans-serif;
+    color: #003300;
+    font-weight: 300;
+}
+
+@media (max-width: 800px) 
+{
+    #basket
+    {
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+    }
+    
+    .item 
+    {
+      height: auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .basket_image img 
+    {
+      width: 50%;
+    }
+    
+    .image,
+    .quantity,
+    .description 
+    {
+      width: 100%;
+      text-align: center;
+      margin: 6px 0;
+    }
+    
+    .buttons 
+    {
+      margin-right: 20px;
+    }
+}
+
+#total_cost
+{
+    display: inline-block; 
+    position: relative; 
+    width: 95%; 
+    font-family: Montserrat, sans-serif; 
+    color: #330066; 
+    font-weight: 600; 
+    font-size: 1.2em; 
+    left: 0%; 
+    padding: 2%; 
+    border-top: 1px solid #999999;
+}
+
+#total_cost p:first-child
+{
+    display: inline-block; 
+    width: 22%; 
+    font-family: Montserrat, sans-serif; 
+    color: #330066; 
+    font-weight: 300; 
+    font-size: 0.8em; 
+    left: 5%; 
+    margin: 0;
+}
+
+#total_cost p:last-child
+{
+    margin: 0; 
+    display: inline-block; 
+    text-align: right; 
+    width: 71%;
+}
+
+#total_cost p:first-child:hover
+{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+#make_order
+{
+    position: relative;
+    width: 100%;
+    background-color: #cc6600da;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.1em;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    padding: 1% 3%;
+    box-shadow: 0 4px 5px 0px rgba(0, 0, 0, 0.582) ;
+    overflow:hidden;
+}
+
+/******************************************************* ORDER FORM *****************************************/
+#order_form
+{
+    display: inline-block;
+    position: relative;
+    width: 50%;
+}
+
+#order
+{
+    display: inline-block;
+    position: relative;
+    border: 2px solid #336633;
+    border-radius: 7px;
+    width: 100%;
+    left: 50%;
+    height: auto;
+    vertical-align:text-bottom;
+    background-color: white;
+    margin: 5% 0;
+}
+
+input[type=tel], textarea
+{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid rgb(153, 149, 149);
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+#order_form label
+{
+    color: #336633; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1em;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#order button 
+{
+  background-color: #e6723d;
+  color: white;
+  padding: 10px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1.2em;
+  position: relative;
+  overflow: hidden;
+}
+  
+#order button:hover
+{
+  opacity: 0.85;
+}
+
+/**************************************************** SEARCH.HTML *******************************************/
+#search_result
+{
+    width: 750px;
+    height: auto;
+    margin: 30px auto;
+    background: rgba(255, 255, 255, 0.4);
+    background-blend-mode: unset;
+    box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
+    border-radius: 6px;
+    border: 1px solid #999999;
+   
+    display: flex;
+    flex-direction: column;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+}
+
+#search_result table
+{
+    width: 95%;
+    margin: 2%;
+    font-size: 0.9em;
+    position: relative;
+}
+
+#search_result > p
+{
+    width: 75%;
+    position: relative;
+    margin: 2% auto 0 2%;
+}
+
+#search_result tr
+{    
+    position: relative;    
+}
+
+#search_result td
+{
+    width: 100%;
+    border: 1px dashed #003300;
+    padding-left: 1%;
+    position: relative;
+}
+
+#search_result td:first-child
+{
+    width: 70%;
+}
+
+#search_result td:first-child ~ td
+{
+    width: 20%;
+}
+
+
+#search_result a
+{
+    position: relative;
+    text-decoration: none;
+    color: #330066;
+}
+
+/************************************************* ADMIN.HTML *******************************************/
+#hello_admin,
+#account_block h2
+{
+    display: inline-block; 
+    position: relative; 
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 1.2em; 
+    color: #330066; 
+    left: 38%; 
+    width: 50%;
+    
+}
+
+.add_book
+{
+    display: inline-block;
+    position: relative;
+    width: 40%;
+    padding: 1% 5%;
+    border: 1px solid #336633;
+    left: 25%;
+    margin-bottom: 5%;
+}
+.add_book p
+{
+    display: inline-block; 
+    position: relative; 
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 1em; 
+    font-weight: 600;
+    color: #330066; 
+}
+
+#admin_block
+{
+    position: relative;
+    display: inline-block;
+    width: 95%;
+}
+
+#admin_block a,
+#log_out
+{
+    display: inline-block;
+    position: relative;
+    width: 5%;
+    left: 40%;
+    font-family: 'Montserrat', sans-serif;
+    color: #330066;
+    text-decoration: none;;
+}
+
+#admin_block a:hover,
+#log_out:hover
+{
+    cursor: pointer;
+    background-color: #ae6ee9;
+    color: white;
+}
+
+/*********************************************** ACCOUNT.HTML *********************************************/
+
+#account_block
+{
+    position: relative;
+    display: block;
+    width: 95%;
+    left: 2%;
+}
+
+#account_block h2
+{
+    left: 34%;
+}
+
+#order_history
+{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+#order_history > p
+{
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    font-family: 'Montserrat',sans-serif;
+    font-size: 1.2em;
+    color: #336633;
+    font-weight: 600;
+    text-align: center;
+}
+
+#order_history table
+{
+    width: 95%;
+    margin: 2%;
+    font-size: 0.9em;
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+    border: 1px dashed #003300;
+}
+
+#order_history tr
+{    
+    position: relative;    
+}
+
+#order_history td
+{   
+    border-left: 1px dashed #003300;
+    border-right: 1px dashed #003300;
+    padding-left: 1%;
+    position: relative;
+    overflow: hidden;
+}
+
+#order_history th
+{
+    position: relative;
+    border: 1px dashed #003300;
+    color: #336633;
+}
+
+#order_history a
+{
+    position: relative;
+    text-decoration: none;
+    color: #330066;
+}
+
+#order_history .number,
+#order_history .order_id,
+#order_history .cost,
+#order_history .amount
+{
+    text-align: center;
+    padding: 0;
+}

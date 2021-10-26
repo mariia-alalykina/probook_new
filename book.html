@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;1,700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Книга</title>
+</head>
+
+<header>
+    <div class = "site_name"><a href = "index.html"><img src="images/site_name.png" width="533" height="433"></a></div>
+    <div class = "hor_menu">
+        <ul>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="delivery.html">Доставка и оплата</a></li>
+            <li><a href="news.html">Новости</a></li>
+            <li><a href="blog.html">Блог</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+        <ul>
+            <li><a href="#">RU</a></li>
+            <li><a href="#">UA</a></li>
+        </ul>
+    </div>
+</header>
+
+<body id = "index">
+    <div class = "under_header">
+        <div class = "catalog">
+            <button class = "catalog_btn" onclick="showMenu()">≡ Каталог товаров</button>
+            <div class = "drop_catalog" id = "drop_down">
+                <a data-genre = "all" onclick="show_by_genre(this)">Все книги</a>
+                <a data-genre = "fiction" onclick="show_by_genre(this)">Художественная литература</a>
+                <a data-genre = "non-fiction" onclick="show_by_genre(this)">Научно-популярная литература</a>
+                <a data-genre = "study" onclick="show_by_genre(this)">Учебная литература</a>
+                <a data-genre = "self-edu" onclick="show_by_genre(this)">Саморазвитие</a>
+                <a data-genre = "bio" onclick="show_by_genre(this)">Биографии, мемуары</a>
+            </div>          
+        </div>
+        <div class = "searching">
+            <form>
+                <input name="_search" id = "search" placeholder="Поиск по автору или названию" type="search">
+                <button type="submit" onclick="return doSearching()"> </button>
+            </form>
+            <script>
+                function doSearching()
+                {
+                    let data_text = document.getElementById('search').value;
+                    sessionStorage.setItem('search', data_text);
+                    window.location.href = 'search.html';
+                    return false;
+                }
+            </script>
+        </div>
+        <div id = "img_basket">
+            <a href = "basket.html"><img src="images/basket.png"></a><span></span>
+        </div>
+        <div class = "img_acc">
+            <a href = "login.html"><img src="images/acc.png"></a>
+        </div>
+    </div>
+
+    <div id = "book_page">
+        <!-- <div class = "img_book_page">
+            <img src = "images/book1.png">
+        </div>
+        <div id = "book_content">
+            <div class = "main_inform">
+                <p class = "author"><b>Автор: </b><span>Маркович Вания</span></p>
+                <p class = "series"><b>Серия: </b><span>В потоке. Движение к счастью</span></p>
+                <p class = "b_name"><b>Название: </b><span>Эмоциональная зрелость: источник внутренней силы</span></p>
+                <p class = "publishing"><b>Издательство: </b><span>Эксмо</span></p>
+                <p class = "year"><b>Год: </b><span>2021</span></p>
+                <p class = "num_pages"><b>Количество страниц: </b><span>240</span></p>
+                <p class = "age_limit"><b>Возрастное ограничение: </b><span>16+</span></p>
+                <p class = "book_id">Код товара: <span>1</span></p>
+            </div>
+            <div class = "price_info">
+                <p class = "availability">В наличии</p>
+                <p class = "price"><span>150</span> грн.</p>
+                <button class = "add_to_basket" type="submit" data-id = "1">Добавить в корзину</button>           
+            </div>            
+            <div class = "description">
+                <p><b>Описание: </b><br>Вы наверняка встречали словосочетание "эмоциональный интеллект". О нём написано много книг, создано не меньше образовательных курсов. Развивать эмоциональный интеллект очень важно, но это лишь первая ступень. Вторая — это эмоциональная зрелость. Что значит быть эмоционально зрелым человеком? Это значит научиться управлять своими эмоциями, сделать их своими союзниками и не позволять им взять над собой власть.<br><br>
+                В основу книги этой книги лёг одноименный курс Вании Маркович — основательницы Школы осознанной жизни "Симург" и Международной Академии Расстановок, автора курсов по эмоциональному интеллекту, бесконфликтному общению и экологии отношений, посла Мира в Международной Федерации за Мир при ООН. Вания помогла тысячам людей прийти к эмоциональной зрелости. Теперь и у вас есть уникальная возможность перейти на новый уровень жизни, ведь от наших эмоций зависит буквально все: отношения с людьми, ощущение внутренней гармонии, успех в работе и наше здоровье.<br><br>
+                В книге рассматриваются 20 черт характера, которые есть у всех нас, но в разных комбинациях. Именно они мешают нам жить, выстраивать гармоничные отношения, добиваться поставленных целей и быть счастливыми. Откуда берутся черты? Как их распознать? А самое главное — как их трансформировать, чтобы они стали нашей силой, а не слабостью? Все материальные изменения, которые происходили с учениками Вании, — это следствие внутренних трансформаций.</p>
+            </div>
+        </div> -->
+    </div>
+
+    <script src = "open_book.js"></script>
+    <script src = add_to_basket_from_page.js></script>
+    <script src="menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,600;1,700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src = "registr.js"></script>
+    <script src = "login.js"></script>
+    <script>
+        if (sessionStorage.getItem('is_authorit'))
+        {
+            if(sessionStorage.getItem('u_id') == 0)
+            {
+                window.location.href = 'admin.html';
+            }
+            else
+            {
+                window.location.href = 'account.html';
+            }
+        }
+    </script>
+    <title>Авторизация</title>
+</head>
+
+<header>
+    <div class = "site_name"><a href = "index.html"><img src="images/site_name.png" width="533" height="433"></a></div>
+    <div class = "hor_menu">
+        <ul>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="delivery.html">Доставка и оплата</a></li>
+            <li><a href="news.html">Новости</a></li>
+            <li><a href="blog.html">Блог</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+        <ul>
+            <li><a href="#">RU</a></li>
+            <li><a href="#">UA</a></li>
+        </ul>
+    </div>
+</header>
+
+<body id = "index">
+    <div class = "under_header">
+        <div class = "catalog">
+            <button class = "catalog_btn" onclick="showMenu()">≡ Каталог товаров</button>
+            <div class = "drop_catalog" id = "drop_down">
+                <a data-genre = "all" onclick="show_by_genre(this)">Все книги</a>
+                <a data-genre = "fiction" onclick="show_by_genre(this)">Художественная литература</a>
+                <a data-genre = "non-fiction" onclick="show_by_genre(this)">Научно-популярная литература</a>
+                <a data-genre = "study" onclick="show_by_genre(this)">Учебная литература</a>
+                <a data-genre = "self-edu" onclick="show_by_genre(this)">Саморазвитие</a>
+                <a data-genre = "bio" onclick="show_by_genre(this)">Биографии, мемуары</a>
+            </div>           
+        </div>
+        <div class = "searching">
+            <form>
+                <input name="_search" id = "search" placeholder="Поиск по автору или названию" type="search">
+                <button type="submit" onclick="return doSearching()"> </button>
+            </form>
+            <script>
+                function doSearching()
+                {
+                    let data_text = document.getElementById('search').value;
+                    sessionStorage.setItem('search', data_text);
+                    window.location.href = 'search.html';
+                    return false;
+                }
+            </script>        
+        </div>
+        <div id = "img_basket">
+            <a href = "basket.html"><img src="images/basket.png"></a><span></span>
+        </div>
+        <div class = "img_acc">
+            <a href = "login.html"><img src="images/acc.png"></a>
+        </div>
+    </div>
+
+    <div class = "authorization">
+        <div class = "log_in">
+            <form id = "log" action = "login.php" method="POST">      
+                <div class="container">
+                <label for="eml"><b>Email</b></label>
+                <input type="email" placeholder="Введите почту" name="eml" id = 'l_email' required>
+            
+                <label for="psw"><b>Пароль</b></label>
+                <input type="password" placeholder="Введите пароль" name="psw" id = 'l_psw' required>
+            
+                <button type="submit" onclick="return log_in()">Войти</button>
+
+                <script>
+                    function checkEmail(email)
+                    {
+                        if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/))
+                        {
+                            return true;
+                        }
+                        else 
+                        {
+                            alert('Введён некорректный адрес электронной почты.');
+                            return false;
+                        }
+                    }
+
+                    function checkPsw(psw)
+                    {
+                        if (psw.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/)) { return true; }
+                        else
+                        {
+                            alert('Введён некорректный пароль. Пароль должен содержать латинские буквы верхнего и нижнего регистра, цифры и иметь длину не менее 6 символов.');
+                            return false;
+                        }
+                    }
+                    function log_in()
+                    {
+                        let user_email = document.getElementById('l_email').value,
+                        user_psw = document.getElementById('l_psw').value;
+
+                        if(user_email == 'admin' && user_psw == 'admin')
+                        {
+                            sessionStorage.setItem("is_authorit", 1);
+                            sessionStorage.setItem("u_id", 0);
+                            sessionStorage.setItem("u_name", 'admin');
+                            window.location.href = 'admin.html';
+                            return false;
+                        }
+                        else if(checkEmail(user_email) && checkPsw(user_psw))
+                        {
+                            let user_data = {u_email: user_email, u_psw: user_psw},
+                                result = "";
+
+                            $.ajax(
+                            {
+                                method: "POST",
+                                url: "login.php",
+                                dataType: "text",
+                                async: false, 
+                                data: user_data,
+                                success: function(data) {
+                                    result = data;
+                                    console.log(result);
+                                }
+                            });
+
+                            if(result == 'false')
+                            {
+                                alert("Неверно введён логин или пароль. Попробуйте снова.");
+                                window.location.reload();
+                            }
+                            else if (result == 'true')
+                            {
+                                let u_id, u_name;
+                                $.ajax(
+                                {
+                                    method: "POST",
+                                    url: "get_user_id.php",
+                                    dataType: "text",
+                                    async: false, 
+                                    data: user_data,
+                                    success: function(data) {
+                                        u_id = data;
+                                        console.log(u_id);
+                                    }
+                                });
+
+                                $.ajax(
+                                {
+                                    method: "POST",
+                                    url: "get_user_name.php",
+                                    dataType: "text",
+                                    async: false, 
+                                    data: user_data,
+                                    success: function(data) {
+                                        u_name = data;
+                                        console.log(u_name);
+                                    }
+                                });
+
+                                
+                                sessionStorage.setItem("is_authorit", 1);
+                                sessionStorage.setItem("u_id", u_id);
+                                sessionStorage.setItem("u_name", u_name);
+                                window.location.href = 'account.html';
+                            }
+                            else {alert('Ошибка входа!');}
+                            
+                            return false;
+                        }
+                        return false;
+                    }
+                </script>
+
+                </div>
+            </form>        
+        </div>
+
+        <div class = "registr">
+            <form id = "reg">      
+                <div class="container">
+
+                <label for="name_"><b>Имя пользователя</b></label>
+                <input type="text" placeholder="Введите имя пользователя" name="name_" id = 'r_name' required>
+                
+                <label for="eml"><b>Email</b></label>
+                <input type="email" placeholder="Введите почту" name="eml" id = 'r_email' required>
+            
+                <label for="psw"><b>Пароль</b></label>
+                <input type="password" placeholder="Введите пароль" name="psw" id = 'r_psw1' required>
+            
+                <label for="psw2"><b>Подтверждение пароля</b></label>
+                <input type="password" placeholder="Введите пароль" name="psw2" id = 'r_psw2' required>
+        
+                <button type="submit" onclick="return checkData()">Зарегистрироваться</button>
+                
+                <script>
+                    function checkEmail(email)
+                    {
+                        if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/))
+                        {
+                            return true;
+                        }
+                        else 
+                        {
+                            alert('Введён некорректный адрес электронной почты.');
+                            return false;
+                        }
+                    }
+                
+                    function checkPsw(psw)
+                    {
+                        if (psw.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/)) { return true; }
+                        else
+                        {
+                            alert('Введён некорректный пароль. Пароль должен содержать латинские буквы верхнего и нижнего регистра, цифры и иметь длину не менее 6 символов.');
+                            return false;
+                        }
+                    }
+                
+                    function checkPswMatch(psw1, psw2)
+                    {
+                        if (psw1 == psw2) { return true; }
+                        else 
+                        {
+                            alert('Пароли не совпадают!');
+                            return false;
+                        }
+                    }
+                    function checkData()
+                    {
+                        let u_name = document.getElementById('r_name').value,
+                        u_email = document.getElementById('r_email').value,
+                        u_psw1 = document.getElementById('r_psw1').value,
+                        u_psw2 = document.getElementById('r_psw2').value;
+                
+                        if(checkEmail(u_email) && checkPsw(u_psw1) && checkPswMatch(u_psw1, u_psw2))
+                        {
+                            let data_text = {name: u_name, email: u_email, psw: u_psw1},
+                                result = "";
+                            $.ajax(
+                            {
+                                method: "POST",
+                                url: "registration.php",
+                                dataType: "text",
+                                async: false,
+                                data: data_text,
+                                success: function(data) {
+                                    result = data;
+                                }
+                            });
+                            alert(result);
+                            window.location.reload();
+                        }
+                
+                        return false;
+                    }
+                    </script>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    
+    <script src = "goods_in_basket.js"></script>
+    <script src="menu.js"></script>
+</body>
+</html>

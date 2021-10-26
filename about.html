@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;1,700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>О нас</title>
+</head>
+
+<header>
+    <div class = "site_name"><a href = "index.html"><img src="images/site_name.png" width="533" height="433"></a></div>
+    <div class = "hor_menu">
+        <ul>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="delivery.html">Доставка и оплата</a></li>
+            <li><a href="news.html">Новости</a></li>
+            <li><a href="blog.html">Блог</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+        <ul>
+            <li><a href="#">RU</a></li>
+            <li><a href="#">UA</a></li>
+        </ul>
+    </div>
+</header>
+
+<body id = "index">
+    <div class = "under_header">
+        <div class = "catalog">
+            <button class = "catalog_btn" onclick="showMenu()">≡ Каталог товаров</button>
+            <div class = "drop_catalog" id = "drop_down">
+                <a data-genre = "all" onclick="show_by_genre(this)">Все книги</a>
+                <a data-genre = "fiction" onclick="show_by_genre(this)">Художественная литература</a>
+                <a data-genre = "non-fiction" onclick="show_by_genre(this)">Научно-популярная литература</a>
+                <a data-genre = "study" onclick="show_by_genre(this)">Учебная литература</a>
+                <a data-genre = "self-edu" onclick="show_by_genre(this)">Саморазвитие</a>
+                <a data-genre = "bio" onclick="show_by_genre(this)">Биографии, мемуары</a>
+            </div>          
+        </div>
+        <div class = "searching">
+            <form>
+                <input name="_search" id = "search" placeholder="Поиск по автору или названию" type="search">
+                <button type="submit" onclick="return doSearching()"> </button>
+            </form>
+            <script>
+                function doSearching()
+                {
+                    let data_text = document.getElementById('search').value;
+                    sessionStorage.setItem('search', data_text);
+                    window.location.href = 'search.html';
+                    return false;
+                }
+            </script>
+        </div>
+        <div id = "img_basket">
+            <a href = "basket.html"><img src="images/basket.png"></a><span></span>
+        </div>
+        <div class = "img_acc">
+            <a href = "login.html"><img src="images/acc.png"></a>
+        </div>
+    </div>
+
+    <div class = "about_us">
+        <img src = "images/site_name.png">
+        <p><span>PRObook</span> - это интернет-магазин печатных изданий книг на любой вкус. У нас вы можете приобрести произведения как художественной, так и научно-популярной литературы.</p>
+        <p>Наши менеджеры предоставят вам всю необходимую информацию о способах доставки и оплаты, порекоммендуют книги из любой категории, а также расскажут о новинках издательств. Обратите внимание на наш график работы, который размещён в разделе "Контакты".</p>
+        <p>Мы рады дарить людям возможность прокачивать свои мозги и обогащать свой внутренний мир!</p>
+    </div>
+
+    <script src = "goods_in_basket.js"></script>
+    <script src="menu.js"></script>
+</body>
+</html>

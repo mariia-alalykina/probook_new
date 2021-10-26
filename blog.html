@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;1,700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Блог</title>
+</head>
+
+<header>
+    <div class = "site_name"><a href = "index.html"><img src="images/site_name.png" width="533" height="433"></a></div>
+    <div class = "hor_menu">
+        <ul>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="delivery.html">Доставка и оплата</a></li>
+            <li><a href="news.html">Новости</a></li>
+            <li><a href="blog.html">Блог</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+        <ul>
+            <li><a href="#">RU</a></li>
+            <li><a href="#">UA</a></li>
+        </ul>
+    </div>
+</header>
+
+<body id = "index">
+    <div class = "under_header">
+        <div class = "catalog">
+            <button class = "catalog_btn" onclick="showMenu()">≡ Каталог товаров</button>
+            <div class = "drop_catalog" id = "drop_down">
+                <a data-genre = "all" onclick="show_by_genre(this)">Все книги</a>
+                <a data-genre = "fiction" onclick="show_by_genre(this)">Художественная литература</a>
+                <a data-genre = "non-fiction" onclick="show_by_genre(this)">Научно-популярная литература</a>
+                <a data-genre = "study" onclick="show_by_genre(this)">Учебная литература</a>
+                <a data-genre = "self-edu" onclick="show_by_genre(this)">Саморазвитие</a>
+                <a data-genre = "bio" onclick="show_by_genre(this)">Биографии, мемуары</a>
+            </div>          
+        </div>
+        <div class = "searching">
+            <form>
+                <input name="_search" id = "search" placeholder="Поиск по автору или названию" type="search">
+                <button type="submit" onclick="return doSearching()"> </button>
+            </form>
+        </div>
+        <div id = "img_basket">
+            <a href = "basket.html"><img src="images/basket.png"></a><span></span>
+        </div>
+        <div class = "img_acc">
+            <a href = "login.html"><img src="images/acc.png"></a>
+        </div>
+    </div>
+
+    <div class = "blog_content">
+        <div class = "post">
+            <div class = "date">25/05/2021 09:00</div>
+            <div class = "galery">
+                <table border="0px">
+                    <thead>
+                        <h2>5 книг, которые можно прочитать за день</h2>
+                    </thead>
+                    <tr>
+                        <td><img src = "blog_images/post1_1.jpg"></td><td><img src = "blog_images/post1_2.jpg"></td><td><img src = "blog_images/post1_3.jpg"></td>
+                    </tr>
+                    <tr>
+                        <td><img src = "blog_images/post1_4.jpg"></td><td><img src = "blog_images/post1_5.jpg"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class = "preview">
+                <p>Когда вокруг - сплошной информационный шум, хочется выключить смартфон и с головой окунуться в какую-то увлекательную историю. Именно такие книги мы для вас и выбрали, а еще - их можно прочитать за один день (а то и вечер).</p>
+            </div>
+            <div class = "post_book">
+                <h3>"Пока не остыл кофе" Тосикадзу Кавагути</h3>
+                <img src = "blog_images/post1_1.jpg">
+                <p>Какой ваш любимый напиток? А когда-нибудь вы хотели побывать в прошлом? Эти два вопроса очень разные, но есть на свете место, которое их объединяет - кафе, где варят очень особый кофе, из которого можно попасть в прошлое. Но надо соблюдать определенные правила: сидеть на «правильном» стуле и не вставать с него; встретиться можно только с теми, кто тоже был в кафе; - прошлого нельзя изменить ни в коем случае. И самое главное - находиться в прошлом можно до тех пор, пока не остынет кофе. <br><br>В книге четыре истории, и все происходят в волшебном кафе. Здесь и радость, и печаль, и слезы, и колебания. Книга умиляет и вселяет веру в людей.</p>
+            </div>
+            <div class = "post_book">
+                <h3>"Между небом и землёй" Марк Леви</h3>
+                <img src = "blog_images/post1_2.jpg">
+                <p>Архитектор Артур переехал в новую квартиру. Вечером он решил расслабиться и набрал в ванную воду. Это то, чего он ждал в течение целого дня. И вот Артур слышит, что кто-то поет. И звук раздается из ... шкафа. Он замер, тогда набрал в грудь воздуха и открыл шкаф. Знаете, что он там увидел? Или скорее кого? Женщину.<br><br>Прекрасная незнакомка - Лорен, предыдущая жительница квартиры, в которую переселился Артур. И она - призрак. На самом деле женщина лежит в больнице в коме и его состояние настолько плохое, что Лорен должны отключить от аппарата жизнеобеспечения. Видеть женщину может только Артур.Конечно же, они влюбляются друг и друга.<br><br> «Между небом и землёй» - хорошая и немного фантастическая история о любви, сострадании, дружбе. Помните, каждое утро мы получаем в кредит 86400 секунд, и только от нас зависит, как мы их используем.</p>
+            </div>
+            <div class = "post_book">
+                <h3>"Если бы ты знал" Эльчин Сафарли</h3>
+                <img src = "blog_images/post1_3.jpg">
+                <p>Она - умирает. Да, конечно, мы все когда-нибудь умрем, но главная героиня книги «Если бы ты знал» знает, сколько времени у нее осталось. Немного. Но ей не страшно, наоборот - она решает изменить свою жизнь и стать счастливой.<br><br>Она переехала в другой город. От знакомых улиц, зданий и магазинов. От всего, что могло ей напоминать о смерти. Она переехала, чтобы не видеть в глазах людей сожаления.<br><br>Книга поднимает сложные темы жизни и смерти, поиска цели и смысла. О смелости принять все трудности, которые выпадают на долю, и умение наслаждаться каждым днем. Читается книга на удивление легко и оставляет замечательное послевкусие.</p>
+            </div>
+            <div class = "post_book">
+                <h3>"Ловушка для золушки" Себастьен Жапризо</h3>
+                <img src = "blog_images/post1_4.jpg">
+                <p>Главная героиня очнулась в больнице. Почему она здесь? Кто она? Лицо в повязках. Где зеркало? Врачи говорят, что три месяца назад она обгорела в пожаре. Тогда она узнает, что их было двое: одна девушка виновата в пожаре, другая - нет. Одна девушка выжила, другая - умерла. Но сама девушка не помнит ничего. Кто же она на самом деле?<br><br>До последних страниц остается загадкой: было ли вообще совершено преступление и кто выжил - преступница или жертва?</p>
+            </div>
+            <div class = "post_book">
+                <h3>"Кафе на краю мира" Джон П. Стрелеки</h3>
+                <img src = "blog_images/post1_5.jpg">
+                <p>Представьте себе, что вы заблудились. Обессиленные, голодные и раздраженные вы видите кафе со странным названием «Почему вы здесь?». Зашли бы или нет? Главный герой книги «Кафе на краю світу» зашел, потому что хотел есть и пить. Но получил гораздо больше, чем просто еду. Он задумался о смысле своей жизни, о своей миссии и о том, как хотел бы прожить свою жизнь. Три главные вопроса, которые он услышал в кафе, и ответ на которые должен найти каждый из нас:<br>
+                1. «Почему вы здесь?» (Самое сложное, правда?)<br>
+                2. «Боитесь ли вы смерти?»<br>
+                3. «Довольны ли вы?»<br><br>Книга, вдохновившая миллионы людей во всем мире на большие изменения. И одновременно - это легкая история, которую можно прочитать за несколько часов.</p>
+            </div>
+            <a href="https://book24.ua/blog/5-knig-kotorye-mozhno-prochitat-za-den/"><p>Источник</p></a>
+        </div>
+    </div>
+
+    <script>
+        function doSearching()
+        {
+            let data_text = document.getElementById('search').value;
+            sessionStorage.setItem('search', data_text);
+            window.location.href = 'search.html';
+            return false;
+        }
+    </script>
+
+    <script src = "goods_in_basket.js"></script>
+    <script src="menu.js"></script>
+</body>
+</html>
