@@ -14,22 +14,22 @@ if(isset ($_GET['book_genre']))
     {
         if($val == 'by_name')
         {
-            $query = "SELECT `image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author`, `book`.`book_id` FROM `book` LEFT JOIN `image` ON `image`.`book_id` = `book`.`book_id` ORDER BY `book`.`name`;";
+            $query = "SELECT `book_image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author_surname`, `book`.`book_id` FROM `book` LEFT JOIN `book_image` ON `book_image`.`book_id` = `book`.`book_id` ORDER BY `book`.`name`;";
             $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
         }
         else if ($val == 'by_price_up')
         {
-            $query = "SELECT `image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author`, `book`.`book_id` FROM `book` LEFT JOIN `image` ON `image`.`book_id` = `book`.`book_id` ORDER BY `book`.`price`;";
+            $query = "SELECT `book_image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author_surname`, `book`.`book_id` FROM `book` LEFT JOIN `book_image` ON `book_image`.`book_id` = `book`.`book_id` ORDER BY `book`.`price`;";
             $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
         }
         else if ($val == 'by_price_down')
         {
-            $query = "SELECT `image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author`, `book`.`book_id` FROM `book` LEFT JOIN `image` ON `image`.`book_id` = `book`.`book_id` ORDER BY `book`.`price` DESC;";
+            $query = "SELECT `book_image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author_surname`, `book`.`book_id` FROM `book` LEFT JOIN `book_image` ON `book_image`.`book_id` = `book`.`book_id` ORDER BY `book`.`price` DESC;";
             $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
         }
         else if ($val == 'by_id')
         {
-            $query = "SELECT `image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author`, `book`.`book_id` FROM `book` LEFT JOIN `image` ON `image`.`book_id` = `book`.`book_id` ORDER BY `book`.`book_id`;";
+            $query = "SELECT `book_image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author_surname`, `book`.`book_id` FROM `book` LEFT JOIN `book_image` ON `book_image`.`book_id` = `book`.`book_id` ORDER BY `book`.`book_id`;";
             $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
         }
     }
@@ -44,22 +44,22 @@ if(isset ($_GET['book_genre']))
     
         if($val == 'by_name')
         {
-            $query = "SELECT `image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author`, `book`.`book_id` FROM `book` LEFT JOIN `image` ON `image`.`book_id` = `book`.`book_id` WHERE `book`.`genre` = '$genre' ORDER BY `book`.`name`;";
+            $query = "SELECT `book_image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author_surname`, `book`.`book_id` FROM `book` LEFT JOIN `book_image` ON `book_image`.`book_id` = `book`.`book_id` WHERE `book`.`genre` = '$genre' ORDER BY `book`.`name`;";
             $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
         }
         else if ($val == 'by_price_up')
         {
-            $query = "SELECT `image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author`, `book`.`book_id` FROM `book` LEFT JOIN `image` ON `image`.`book_id` = `book`.`book_id` WHERE `book`.`genre` = '$genre' ORDER BY `book`.`price`;";
+            $query = "SELECT `book_image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author_surname`, `book`.`book_id` FROM `book` LEFT JOIN `book_image` ON `book_image`.`book_id` = `book`.`book_id` WHERE `book`.`genre` = '$genre' ORDER BY `book`.`price`;";
             $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
         }
         else if ($val == 'by_price_down')
         {
-            $query = "SELECT `image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author`, `book`.`book_id` FROM `book` LEFT JOIN `image` ON `image`.`book_id` = `book`.`book_id` WHERE `book`.`genre` = '$genre' ORDER BY `book`.`price` DESC;";
+            $query = "SELECT `book_image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author_surname`, `book`.`book_id` FROM `book` LEFT JOIN `book_image` ON `book_image`.`book_id` = `book`.`book_id` WHERE `book`.`genre` = '$genre' ORDER BY `book`.`price` DESC;";
             $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
         }
         else if ($val == 'by_id')
         {
-            $query = "SELECT `image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author`, `book`.`book_id` FROM `book` LEFT JOIN `image` ON `image`.`book_id` = `book`.`book_id` WHERE `book`.`genre` = '$genre' ORDER BY `book`.`book_id`;";
+            $query = "SELECT `book_image`.`url_image`, `book`.`price`, `book`.`name`, `book`.`author_surname`, `book`.`book_id` FROM `book` LEFT JOIN `book_image` ON `book_image`.`book_id` = `book`.`book_id` WHERE `book`.`genre` = '$genre' ORDER BY `book`.`book_id`;";
             $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
         }
     }
