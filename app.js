@@ -14,11 +14,11 @@ const jsonParser = express.json();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get("/", function(request, response){
+/* app.get("/", function(request, response){
      
     // отправляем ответ
-    response.send("<h2>Привет Express!</h2>");
-});
+    response.sendFile(__dirname + "/public/index.html");
+}); */
 
 
 
