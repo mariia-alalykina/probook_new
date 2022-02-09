@@ -14,12 +14,17 @@ const jsonParser = express.json();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* app.get("/", function(request, response){
+app.get("/", function(request, response){
      
     // отправляем ответ
     response.sendFile(__dirname + "/public/index.html");
-}); */
+});
 
+app.get("/about", function(request, response){
+     
+    // отправляем ответ
+    response.sendFile(__dirname + "/public/about.html");
+});
 
 
 
