@@ -1,11 +1,27 @@
 const express = require("express");
 const mysql = require("mysql2");
 
-/* const connection = mysql.createConnection( {
+const connection = mysql.createConnection( {
     host: "localhost",
     user: "Mariia",
     database: "probook",
     password: "Database1@@@"
+});
+
+connection.connect(function(err){
+    if (err) {
+      return console.error("Ошибка: " + err.message);
+    }
+    else{
+      console.log("Подключение к серверу MySQL успешно установлено");
+    }
+ });
+ // закрытие подключения
+ /* connection.end(function(err) {
+  if (err) {
+    return console.log("Ошибка: " + err.message);
+  }
+  console.log("Подключение закрыто");
 }); */
 
 const app = express();
@@ -49,6 +65,7 @@ app.get("/login", function(request, response){
 app.get("/news", function(request, response){
     response.sendFile(__dirname + "/public/news.html");
 });
+
 
 
 app.listen(3000, function() {
