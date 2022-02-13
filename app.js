@@ -8,14 +8,19 @@ const connection = mysql.createConnection( {
     password: "Database1@@@"
 });
 
-connection.connect(function(err){
-    if (err) {
-      return console.error("Ошибка: " + err.message);
-    }
-    else{
-      console.log("Подключение к серверу MySQL успешно установлено");
-    }
- });
+function createConnection() {
+    connection.connect(function(err){
+        if (err) {
+          return console.error("Ошибка: " + err.message);
+        }
+        else{
+          console.log("Подключение к серверу MySQL успешно установлено");
+        }
+     });
+}
+
+createConnection();
+
  // закрытие подключения
  /* connection.end(function(err) {
   if (err) {
@@ -66,7 +71,51 @@ app.get("/news", function(request, response){
     response.sendFile(__dirname + "/public/news.html");
 });
 
+app.post("/api/login", jsonParser, function(req, res) {
+    if(!req.body) return res.sendStatus(400);
 
+    const email = req.body.email;
+    const password = req.body.password;
+
+    let user = [email, password];
+
+   // createConnection();
+
+    const sql = 'SELECT * FROM user WHERE email = ? AND password = ?;';
+    connection.query(sql, user, function(err, result) {
+        if(err) console.log(err);
+        if(result.length == 1) res.send(true);
+        else res.send(false);
+    });
+
+    //connection.end();    
+    debugger;
+});
+
+app.post("/api/user/:email/:password", function(req, res) {
+    debugger;
+    const email = req.params['email'];
+    const password = req.params['password'];
+
+    let user = [email, password];
+
+    //createConnection();
+
+    const sql = 'SELECT * FROM user WHERE email = ? AND password = ?;';
+    connection.query(sql, user, function(err, result) {
+        if(err) console.log(err);
+        let user_ = null;
+        user_ = result;
+        if(user_){
+            res.send(user_);
+        }
+        else{
+            res.status(404).send();
+        }
+    });
+
+    //connection.end();
+});
 
 app.listen(3000, function() {
     console.log("Server started on 3000.");

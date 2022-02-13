@@ -82,7 +82,7 @@
 
     <div class = "authorization">
         <div class = "log_in">
-            <form id = "log" action = "login.php" method="POST">      
+            <form id = "log">      
                 <div class="container">
                 <label for="eml"><b>Email</b></label>
                 <input type="email" placeholder="Введите почту" name="eml" id = 'l_email' required>
@@ -115,57 +115,99 @@
                             return false;
                         }
                     }
-                    function log_in()
+                    async function log_in()
                     {
                         let user_email = document.getElementById('l_email').value,
                         user_psw = document.getElementById('l_psw').value;
 
-                        if(user_email == 'admin' && user_psw == 'admin')
-                        {
+                        if(user_email == 'admin' && user_psw == 'admin') {
                             sessionStorage.setItem("is_authorit", 1);
                             sessionStorage.setItem("u_id", 0);
                             sessionStorage.setItem("u_name", 'admin');
                             window.location.href = 'admin.html';
                             return false;
                         }
+                        else if (user_email == 'operator' && user_psw == 'operator') {
+                            sessionStorage.setItem("is_authorit", 1);
+                            sessionStorage.setItem("u_id", -2);
+                            sessionStorage.setItem("u_name", 'operator');
+                            window.location.href = 'operator.html';
+                            return false;
+                        }
+                        else if (user_email == 'adminBooks' && user_psw == 'adminBooks') {
+                            sessionStorage.setItem("is_authorit", 1);
+                            sessionStorage.setItem("u_id", -3);
+                            sessionStorage.setItem("u_name", 'adminBooks');
+                            window.location.href = 'admin.html';
+                            return false;
+                        }
+                        else if (user_email == 'adminNews' && user_psw == 'adminNews') {
+                            sessionStorage.setItem("is_authorit", 1);
+                            sessionStorage.setItem("u_id", -4);
+                            sessionStorage.setItem("u_name", 'adminNews');
+                            window.location.href = 'admin.html';
+                            return false;
+                        }
                         else if(checkEmail(user_email) && checkPsw(user_psw))
                         {
-                            let user_data = {u_email: user_email, u_psw: user_psw},
-                                result = "";
+                            try {
+                                const response = await fetch ("api/login", {
+                                    method: "POST",
+                                    headers: { "Accept": "application/text", "Content-Type": "application/json" },
+                                    body: JSON.stringify( {
+                                        email: user_email,
+                                        password: user_psw
+                                    })
+                                });
+                            } catch (err) {
+                                console.log(err);
+                            }                            
 
-                            $.ajax(
-                            {
-                                method: "POST",
-                                url: "login.php",
-                                dataType: "text",
-                                async: false, 
-                                data: user_data,
-                                success: function(data) {
-                                    result = data;
-                                    console.log(result);
+                            if (response.ok == true) {
+                                const result = await response.text();
+                                reset();
+
+                                if(result == "false") {
+                                    alert("Неверно введён логин или пароль. Попробуйте снова.");
+                                    window.location.reload();
                                 }
-                            });
+                                else if(result == "true") {
+                                    const response1 = await fetch ("api/user/" + user_email + "/" + user_psw, {
+                                        method: "POST",
+                                        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                                    });
 
-                            if(result == 'false')
+                                    if (response.ok === true) {
+                                        console.log("I'm in responseOK in client");
+                                        const result1 = await response.json();
+                                        reset();
+
+
+                                        sessionStorage.setItem("is_authorit", 1);
+                                        sessionStorage.setItem("u_id", result1.user_id);
+                                        sessionStorage.setItem("u_name", result1.name);
+                                        window.location.href = 'account.html';
+                                    }
+                                }
+                                else {alert('Ошибка входа!');}
+                                
+                                return false;
+                            }
+                            else {
+                                console.log('Вернулся не текст true или просто не true');
+                                return false;
+                            }
+
+                            /* if(result == "false")
                             {
                                 alert("Неверно введён логин или пароль. Попробуйте снова.");
                                 window.location.reload();
                             }
-                            else if (result == 'true')
+                            else if (result == "true")
                             {
-                                let u_id, u_name;
-                                $.ajax(
-                                {
-                                    method: "POST",
-                                    url: "get_user_id.php",
-                                    dataType: "text",
-                                    async: false, 
-                                    data: user_data,
-                                    success: function(data) {
-                                        u_id = data;
-                                        console.log(u_id);
-                                    }
-                                });
+                                let u_id = '', 
+                                u_name = '';
+                                
 
                                 $.ajax(
                                 {
@@ -179,7 +221,6 @@
                                         console.log(u_name);
                                     }
                                 });
-
                                 
                                 sessionStorage.setItem("is_authorit", 1);
                                 sessionStorage.setItem("u_id", u_id);
@@ -188,9 +229,8 @@
                             }
                             else {alert('Ошибка входа!');}
                             
-                            return false;
+                            return false; */
                         }
-                        return false;
                     }
                 </script>
 
