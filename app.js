@@ -1,5 +1,6 @@
 const express = require("express");
 const mysql = require("mysql2");
+const cor = require("cors");
 
 const connection = mysql.createConnection( {
     host: "localhost",
@@ -34,6 +35,7 @@ const path = require('path');
 const jsonParser = express.json();
 
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.get("/", function(request, response){
     response.sendFile(__dirname + "/public/index.html");
@@ -84,8 +86,8 @@ app.post("/api/login", jsonParser, function(req, res) {
     const sql = 'SELECT * FROM user WHERE email = ? AND password = ?;';
     connection.query(sql, user, function(err, result) {
         if(err) console.log(err);
-        if(result.length == 1) res.send(true);
-        else res.send(false);
+        if(result.length == 1) res.send("true");
+        else res.send("false");
     });
 
     //connection.end();    

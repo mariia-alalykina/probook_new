@@ -82,7 +82,7 @@
 
     <div class = "authorization">
         <div class = "log_in">
-            <form id = "log">      
+            <div id = "log">      
                 <div class="container">
                 <label for="eml"><b>Email</b></label>
                 <input type="email" placeholder="Введите почту" name="eml" id = 'l_email' required>
@@ -90,7 +90,7 @@
                 <label for="psw"><b>Пароль</b></label>
                 <input type="password" placeholder="Введите пароль" name="psw" id = 'l_psw' required>
             
-                <button type="submit" onclick="return log_in()">Войти</button>
+                <button onclick="log_in()">Войти</button>
 
                 <script>
                     function checkEmail(email)
@@ -159,44 +159,53 @@
                                         password: user_psw
                                     })
                                 });
+
+                                if (response.ok === true) {
+                                    const result = await response.text();
+                                    //reset();
+
+                                    if(result == "false") {
+                                        alert("Неверно введён логин или пароль. Попробуйте снова.");
+                                        window.location.reload();
+                                    }
+                                    else if(result == "true") {
+                                        try {
+                                                const response1 = await fetch ("api/user/" + user_email + "/" + user_psw, {
+                                                method: "POST",
+                                                headers: { "Accept": "application/json", "Content-Type": "application/json" }
+                                            });
+
+                                            if (response1.ok === true) {
+                                                console.log("I'm in responseOK in client");
+                                                const result1 = await response1.json();
+                                                //reset();
+
+                                                sessionStorage.setItem("is_authorit", 1);
+                                                sessionStorage.setItem("u_id", result1[0].user_id);
+                                                sessionStorage.setItem("u_name", result1[0].name);
+                                                window.location.href = 'account.html';
+                                            }
+                                            else {
+                                                throw new Error("2Вернулся не текст true или просто не true");
+                                            }
+                                        }  
+                                        catch (err) {
+                                            console.log(err);
+                                        }                                        
+                                    }
+                                    else {alert('Ошибка входа!');}
+                                    
+                                    return false;
+                                }
+                                else {
+                                    throw new Error("1Вернулся не текст true или просто не true");
+                                    return false;
+                                }
                             } catch (err) {
                                 console.log(err);
                             }                            
 
-                            if (response.ok == true) {
-                                const result = await response.text();
-                                reset();
-
-                                if(result == "false") {
-                                    alert("Неверно введён логин или пароль. Попробуйте снова.");
-                                    window.location.reload();
-                                }
-                                else if(result == "true") {
-                                    const response1 = await fetch ("api/user/" + user_email + "/" + user_psw, {
-                                        method: "POST",
-                                        headers: { "Accept": "application/json", "Content-Type": "application/json" },
-                                    });
-
-                                    if (response.ok === true) {
-                                        console.log("I'm in responseOK in client");
-                                        const result1 = await response.json();
-                                        reset();
-
-
-                                        sessionStorage.setItem("is_authorit", 1);
-                                        sessionStorage.setItem("u_id", result1.user_id);
-                                        sessionStorage.setItem("u_name", result1.name);
-                                        window.location.href = 'account.html';
-                                    }
-                                }
-                                else {alert('Ошибка входа!');}
-                                
-                                return false;
-                            }
-                            else {
-                                console.log('Вернулся не текст true или просто не true');
-                                return false;
-                            }
+                            
 
                             /* if(result == "false")
                             {
@@ -235,11 +244,11 @@
                 </script>
 
                 </div>
-            </form>        
+            </div>        
         </div>
 
         <div class = "registr">
-            <form id = "reg">      
+            <div id = "reg">      
                 <div class="container">
 
                 <label for="name_"><b>Имя пользователя</b></label>
@@ -319,7 +328,7 @@
                     }
                     </script>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
