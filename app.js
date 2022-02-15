@@ -31,6 +31,7 @@ createConnection();
 
 const app = express();
 const path = require('path');
+const { isBuffer } = require("util");
 const jsonParser = express.json();
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -72,7 +73,8 @@ app.get("/news", function(request, response){
     response.sendFile(__dirname + "/public/news.html");
 });
 
-app.post("/api/login", jsonParser, function(req, res) {
+//check whether user with these email and password exists
+app.post("/login", jsonParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
 
     const email = req.body.email;
@@ -80,30 +82,23 @@ app.post("/api/login", jsonParser, function(req, res) {
 
     let user = [email, password];
 
-   // createConnection();
-
-    const sql = 'SELECT * FROM user WHERE email = ? AND password = ?;';
-    connection.query(sql, user, function(err, result) {
+    const query = 'SELECT * FROM user WHERE email = ? AND password = ?;';
+    connection.query(query, user, function(err, result) {
         if(err) console.log(err);
         if(result.length == 1) res.send("true");
         else res.send("false");
     });
-
-    //connection.end();    
-    debugger;
 });
 
-app.post("/api/user/:email/:password", function(req, res) {
-    debugger;
+// get user for entered personal account
+app.post("/users/:email/:password", function(req, res) {
     const email = req.params['email'];
     const password = req.params['password'];
 
     let user = [email, password];
 
-    //createConnection();
-
-    const sql = 'SELECT * FROM user WHERE email = ? AND password = ?;';
-    connection.query(sql, user, function(err, result) {
+    const query = 'SELECT * FROM user WHERE email = ? AND password = ?;';
+    connection.query(query, user, function(err, result) {
         if(err) console.log(err);
         let user_ = null;
         user_ = result;
@@ -114,8 +109,31 @@ app.post("/api/user/:email/:password", function(req, res) {
             res.status(404).send();
         }
     });
+});
 
-    //connection.end();
+//add new user to the database
+app.post("/signup", jsonParser, function(req, res) {
+    debugger;
+    if(!req.body) return res.sendStatus(400);
+
+    const name = req.body.name;
+    const email = req.body.email;
+    const phone = req.body.phone;
+    const psw = req.body.password;
+
+    let user = [name, email, psw, phone];
+
+    const query = "INSERT INTO user VALUES (NULL, ?, ?, ?, NULL, ?);";
+
+    connection.query(query, user, function(err, result) {
+        if(err) {
+            console.log(err);
+            res.send("Пользователь с таким email уже существует!");
+        }
+        else {
+            res.send("Регистрация прошла успешно! Теперь используйте форму для входа в Личный кабинет.");
+        }
+    });
 });
 
 app.listen(3000, function() {

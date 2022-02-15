@@ -151,7 +151,7 @@
                         else if(checkEmail(user_email) && checkPsw(user_psw))
                         {
                             try {
-                                const response = await fetch ("api/login", {
+                                const response = await fetch ("login", {
                                     method: "POST",
                                     headers: { "Accept": "application/text", "Content-Type": "application/json" },
                                     body: JSON.stringify( {
@@ -169,7 +169,7 @@
                                     }
                                     else if(result == "true") {
                                         try {
-                                                const response1 = await fetch ("api/user/" + user_email + "/" + user_psw, {
+                                                const response1 = await fetch ("users/" + user_email + "/" + user_psw, {
                                                 method: "POST",
                                                 headers: { "Accept": "application/json", "Content-Type": "application/json" }
                                             });
@@ -215,6 +215,9 @@
                 
                 <label for="eml"><b>Email</b></label>
                 <input type="email" placeholder="Введите почту" name="eml" id = 'r_email' required>
+
+                <label for="phone"><b>Телефон</b></label>
+                <input type="phone" placeholder="380ххххххххх" name="phone" id = 'r_phone' required>
             
                 <label for="psw"><b>Пароль</b></label>
                 <input type="password" placeholder="Введите пароль" name="psw" id = 'r_psw1' required>
@@ -222,7 +225,7 @@
                 <label for="psw2"><b>Подтверждение пароля</b></label>
                 <input type="password" placeholder="Введите пароль" name="psw2" id = 'r_psw2' required>
         
-                <button type="submit" onclick="return checkData()">Зарегистрироваться</button>
+                <button onclick="checkData()">Зарегистрироваться</button>
                 
                 <script>
                     function checkEmail(email)
@@ -234,6 +237,14 @@
                         else 
                         {
                             alert('Введён некорректный адрес электронной почты.');
+                            return false;
+                        }
+                    }
+
+                    function checkPhone(phone) {
+                        if(phone.match(/^380\d{9}$/)) { return true; }
+                        else {
+                            alert('Введён некорректный номер телефона.');
                             return false;
                         }
                     }
@@ -257,33 +268,46 @@
                             return false;
                         }
                     }
-                    function checkData()
+                    async function checkData()
                     {
                         let u_name = document.getElementById('r_name').value,
                         u_email = document.getElementById('r_email').value,
+                        u_phone = document.getElementById('r_phone').value,
                         u_psw1 = document.getElementById('r_psw1').value,
                         u_psw2 = document.getElementById('r_psw2').value;
                 
-                        if(checkEmail(u_email) && checkPsw(u_psw1) && checkPswMatch(u_psw1, u_psw2))
+                        if(checkEmail(u_email) && checkPhone(u_phone) && checkPsw(u_psw1) && checkPswMatch(u_psw1, u_psw2))
                         {
-                            let data_text = {name: u_name, email: u_email, psw: u_psw1},
-                                result = "";
-                            $.ajax(
-                            {
-                                method: "POST",
-                                url: "registration.php",
-                                dataType: "text",
-                                async: false,
-                                data: data_text,
-                                success: function(data) {
-                                    result = data;
+                            try {
+                                const response = await fetch ("signup", {
+                                    method: "POST",
+                                    headers: { "Accept": "application/text", "Content-Type": "application/json" },
+                                    body: JSON.stringify( {
+                                        name: u_name,
+                                        email: u_email,
+                                        phone: u_phone,
+                                        password: u_psw1
+                                    })
+                                });
+
+                                if (response.ok === true) {
+                                    const result = await response.text();
+
+                                    alert(result);
+                                    u_name = "";
+                                    u_email = "";
+                                    u_phone = "";
+                                    u_psw1 = "";
+                                    u_psw2 = "";
+                                    window.location.reload();    
                                 }
-                            });
-                            alert(result);
-                            window.location.reload();
+                                else {
+                                    throw new Error("Error with response!");
+                                }
+                            } catch (err) {
+                                console.log(err);
+                            }        
                         }
-                
-                        return false;
                     }
                     </script>
                 </div>

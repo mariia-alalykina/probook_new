@@ -514,7 +514,7 @@ input::-ms-input-placeholder
   background-color: white;
 }
 
-input[type=email], input[type=password], input[type=text]
+input[type=email], input[type=password], input[type=text], input[type=phone]
 {
   width: 100%;
   padding: 12px 20px;
@@ -523,6 +523,13 @@ input[type=email], input[type=password], input[type=text]
   border: 1px solid rgb(153, 149, 149);
   box-sizing: border-box;
   border-radius: 5px;
+}
+
+input[type=email]:hover, 
+input[type=password]:hover, 
+input[type=text]:hover, 
+input[type=phone]:hover {
+    cursor: text;
 }
 
 input::-moz-placeholder
