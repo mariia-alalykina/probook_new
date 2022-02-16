@@ -74,6 +74,7 @@ function removeFromBasket()
           if (localStorage.getItem('count_in_basket') == 0)
           {
             localStorage.removeItem('card');
+            localStorage.removeItem('total_cost');
             window.location.reload();
             return;
           }

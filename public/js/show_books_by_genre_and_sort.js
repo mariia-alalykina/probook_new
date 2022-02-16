@@ -102,3 +102,21 @@ function createBookCard(books) {
             })
             .catch((err) => {console.log(err);})
     }
+
+function loadScript(src) {
+    return new Promise(function(resolve, reject) {
+        let script = document.createElement('script');
+        script.src = src;
+      
+        document.onload = () => resolve(script);
+        document.onerror = () => reject(new Error(`Ошибка загрузки скрипта ${src}`));
+     
+        document.body.append(script);
+    });
+}
+
+let promise = loadScript("js/add_to_basket_from_catalog.js");
+promise.then(
+    script => alert("Скрипт загружен!"),
+    error => alert(`Ошибка:  + ${error.message}`)
+);
