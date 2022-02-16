@@ -26,4 +26,3 @@ window.onclick = function(e)
 }
 
 
-

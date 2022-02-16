@@ -36,6 +36,36 @@ const jsonParser = express.json();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+function createBooksQuery(genre, typeOfSort) {
+    let bookGenre = "";
+    let query = "";
+
+    if (genre == 'fiction') {bookGenre = "Художественная литература";}
+    else if (genre == 'non-fiction') {bookGenre = 'Научно-популярная литература';}
+    else if (genre == 'study') {bookGenre = 'Учебная литература';}
+    else if (genre == 'self-edu') {bookGenre = 'Саморазвитие';}
+    else if (genre == 'bio') {bookGenre = 'Биографии, мемуары';}
+
+    switch(typeOfSort) {
+        case "by_name": 
+            query = "SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE book.genre = '" + bookGenre + "' ORDER BY book.name";
+            
+            break;
+        case "by_price_up": 
+            query = "SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE book.genre = '" + bookGenre + "' ORDER BY book.price";
+
+            break;
+        case "by_price_down":
+            query = "SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE book.genre = '" + bookGenre + "' ORDER BY book.price DESC";
+            
+            break;
+        case "by_id":
+            query = "SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE book.genre = '" + bookGenre + "' ORDER BY book.book_id";
+
+            break;
+    }
+    return query;
+}
 
 app.get("/", function(request, response){
     response.sendFile(__dirname + "/public/index.html");
@@ -135,6 +165,60 @@ app.post("/signup", jsonParser, function(req, res) {
         }
     });
 });
+
+app.get("/books/all/:typeOfSort", (req, res) => {
+    const typeOfSort = req.params["typeOfSort"];
+
+    let query = "";
+    
+    switch(typeOfSort) {
+        case "by_name": 
+            query = "SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id ORDER BY book.name";
+            
+            break;
+        case "by_price_up": 
+            query = "SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id ORDER BY book.price";
+
+            break;
+        case "by_price_down":
+            query = "SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id ORDER BY book.price DESC";
+            
+            break;
+        case "by_id":
+            query = "SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id ORDER BY book.book_id";
+
+            break;
+    }
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({ error: "Ошибка отображения книг!" });
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+app.get("/books/:genre/:typeOfSort", (req, res) => {
+    const genre = req.params['genre'];
+    const typeOfSort = req.params["typeOfSort"];
+
+    let query = createBooksQuery(genre, typeOfSort);
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({ error: "Ошибка отображения книг!" });
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+
 
 app.listen(3000, function() {
     console.log("Server started on 3000.");

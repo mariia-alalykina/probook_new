@@ -2,31 +2,103 @@
 
 let total_string = '',
 	genre = sessionStorage.getItem('genre'),
-    catalogBox = document.querySelector('#book_catalog'),
-    selected_value = sessionStorage.getItem('sort');
+    $catalogBox = document.querySelector('#book_catalog'),
+    typeOfSort = sessionStorage.getItem('sort');
 
-function getSorted()
-{
-    let selected_value = document.getElementById('sort').value;
-    sessionStorage.setItem('sort', selected_value);
+function getSorted() {
+    let typeOfSort = document.getElementById('sort').value;
+    sessionStorage.setItem('sort', typeOfSort);
 }
 
-    if (genre)
-    {
-        let data = { book_genre: genre, sort_type: selected_value };
-        $.ajax(
-        {
-            method: "GET",
-            url: "sort.php",
-            dataType: "text",
-            async: false,
-            data: data,
-            success: function(data) {
-                total_string = data;
-            }
-        });
-    } 
+let statusFunc = function(response) {
+    if (response.status !== 200) {
+        return Promise.reject(new Error(response.statusText));
+    }
+      return Promise.resolve(response);
+}
+
+function createElement(tag, className) {
+    const $tag = document.createElement(tag);
+    if (className) {
+        $tag.classList.add(className);
+    }
     
-    catalogBox.innerHTML = total_string;
-    
+    return $tag;
+}
+
+function createBookCard(books) {
+    let book_id = 0;
+    $catalogBox.innerHTML = "";
+    for (let i = 0; i < books.length; i++) {
+        if (books[i].book_id == book_id) continue;
+
+        let $prodCard = createElement('div', 'prod_card');
         
+        let $book = createElement('a');
+        $book.setAttribute('href', 'book.html');
+        $book.setAttribute('data-id', books[i].book_id);
+        $book.setAttribute('title', books[i].name);
+
+        let $bookImg = createElement('div', 'img_book_card');
+
+        let $img = createElement('img');
+        $img.setAttribute('src', books[i].url_image);
+
+        $bookImg.appendChild($img);                    
+
+        let $cost = createElement('p', 'cost');
+
+        let $price = createElement('span');
+        $price.innerHTML = books[i].price;
+        
+        $cost.append($price);
+        $cost.append(' грн.');
+
+        let $bookName = createElement('p', 'book_name');
+        $bookName.innerHTML = books[i].name;
+
+        let $bookAuthor = createElement('p', 'book_author');
+        $bookAuthor.innerHTML = books[i].author_name + " " + books[i].author_surname;
+
+        $book.appendChild($bookImg);
+        $book.appendChild($cost);
+        $book.appendChild($bookName);
+        $book.appendChild($bookAuthor);
+
+        let $addToBasket = createElement('button', 'add_to_basket');
+        $addToBasket.setAttribute('type', 'submit');
+        $addToBasket.setAttribute('data-id', books[i].book_id);
+        $addToBasket.innerHTML = "Добавить в корзину";
+
+        $prodCard.appendChild($book);
+        $prodCard.appendChild($addToBasket);
+
+        $catalogBox.appendChild($prodCard);
+
+        book_id = books[i].book_id;
+    }
+}
+
+    if (genre == "all")
+    {
+        fetch ("books/all/" + typeOfSort, {
+            method: "GET",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" } })
+            .then (statusFunc)
+            .then ((response) => {return response.json();})
+            .then ((books) => {
+                createBookCard(books);
+            })
+            .catch((err) => {console.log(err);})    
+    }   
+    else {
+        fetch ("books/" + genre + "/" + typeOfSort, {
+            method: "GET",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" } })
+            .then (statusFunc)
+            .then ((response) => {return response.json();})
+            .then ((books) => {
+                createBookCard(books);
+            })
+            .catch((err) => {console.log(err);})
+    }
