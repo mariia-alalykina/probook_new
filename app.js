@@ -218,7 +218,21 @@ app.get("/books/:genre/:typeOfSort", (req, res) => {
     });
 });
 
+app.get("/books/:id", (req, res) => {
+    const bookId = req.params["id"];
 
+    const query = `SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id, book.series, book.publishing_house, book.year, book.number_of_pages, book.age_limit, book.description, book.availability FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE books_authors.book_id = ${bookId};`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({ error: "Ошибка отображения книги!" });
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
 
 app.listen(3000, function() {
     console.log("Server started on 3000.");

@@ -1,7 +1,6 @@
 'use strict'
 
-let total_string = '',
-	genre = sessionStorage.getItem('genre'),
+let genre = sessionStorage.getItem('genre'),
     $catalogBox = document.querySelector('#book_catalog'),
     typeOfSort = sessionStorage.getItem('sort');
 
@@ -88,8 +87,14 @@ function createBookCard(books) {
             .then ((response) => {return response.json();})
             .then ((books) => {
                 createBookCard(books);
+                /* let $openBooks = document.querySelectorAll('.prod_card a');
+                for(let i = 0; i < $openBooks.length; i++) {
+                    $openBooks.addEventListener('click', function() {
+                        sessionStorage.setItem('book_id', $openBooks.getAttribute('data-id'));
+                    })
+                }      */           
             })
-            .catch((err) => {console.log(err);})    
+            .catch((err) => { console.log(err); })    
     }   
     else {
         fetch ("books/" + genre + "/" + typeOfSort, {
@@ -108,15 +113,34 @@ function loadScript(src) {
         let script = document.createElement('script');
         script.src = src;
       
-        document.onload = () => resolve(script);
-        document.onerror = () => reject(new Error(`Ошибка загрузки скрипта ${src}`));
+        script.onload = () => resolve(script);
+        script.onerror = () => reject(new Error(`Ошибка загрузки скрипта ${src}`));
      
         document.body.append(script);
     });
 }
 
-let promise = loadScript("js/add_to_basket_from_catalog.js");
-promise.then(
-    script => alert("Скрипт загружен!"),
-    error => alert(`Ошибка:  + ${error.message}`)
-);
+function getId()
+{
+  bookId = this.getAttribute('data-id');
+  sessionStorage.setItem('book_id', bookId);
+  window.location.href = 'book.html';
+}
+
+window.onload = function() {
+    let promise = loadScript("js/add_to_basket_from_catalog.js");
+    promise.then(
+        script => { 
+            console.log("Скрипт загружен!");
+            let $productCard = document.querySelectorAll('.prod_card a');
+            for(let i = 0; i < $productCard.length; i++) {
+                $productCard[i].addEventListener('click', getId);
+            }
+        },
+        error => console.log(`Ошибка:  + ${error.message}`)
+    )
+}
+
+
+
+

@@ -56,18 +56,18 @@ function addToBasket(e)
 
 let bookId = 0;
 
-function getId()
+/* function getId()
 {
   bookId = this.getAttribute('data-id');
   localStorage.setItem('book-id', bookId);
   window.location.href = 'book.html';
-}
+} */
 
 //обработчик для открытия каждой книги
-for(let i = 0; i < itemBox.length; i++)
+/* for(let i = 0; i < itemBox.length; i++)
 {
   addEvent(itemBox[i].querySelector('a'), 'click', getId);
-}
+} */
 
 let goods_in_basket = 0;
 goods_in_basket = localStorage.getItem('count_in_basket');
