@@ -1,13 +1,53 @@
 'use strict'
 
 let genre = sessionStorage.getItem('genre'),
+    authorSort = sessionStorage.getItem('author'),
+    yearSort = sessionStorage.getItem('year'),
+    costFromSort = sessionStorage.getItem('cost_from'),
+    costToSort = sessionStorage.getItem('cost_to'),
     $catalogBox = document.querySelector('#book_catalog'),
     typeOfSort = sessionStorage.getItem('sort'),
-    $authors = document.getElementById('author');
+    $authors = document.getElementById('author'),
+    $years = document.getElementById('year');
 
-function getSorted() {
-    let typeOfSort = document.querySelector('.sort form').value;
+function setTypeOfSort() {
+    sessionStorage.removeItem('author');
+    sessionStorage.removeItem('year');
+    sessionStorage.removeItem('cost_from');
+    sessionStorage.removeItem('cost_to');
+
+    let typeOfSort = document.getElementById('sort').value;
     sessionStorage.setItem('sort', typeOfSort);
+}
+
+function setAuthor() {
+    sessionStorage.removeItem('year');
+    sessionStorage.removeItem('cost_from');
+    sessionStorage.removeItem('cost_to');
+
+    let authorForSort = document.getElementById('author').value;
+    sessionStorage.setItem('author', authorForSort);
+}
+
+function setYear() {
+    sessionStorage.removeItem('author');
+    sessionStorage.removeItem('cost_from');
+    sessionStorage.removeItem('cost_to');
+
+    let yearForSort = document.getElementById('year').value;
+    sessionStorage.setItem('year', yearForSort);
+}
+
+function setPriceRange() {
+    sessionStorage.removeItem('year');
+    sessionStorage.removeItem('author');
+
+    let costFrom = document.getElementsByName('cost_from');
+    const valueFrom = costFrom[0].value;
+    let costTo = document.getElementsByName('cost_to');
+    const valueTo = costTo[0].value;
+    sessionStorage.setItem('cost_from', valueFrom);
+    sessionStorage.setItem('cost_to', valueTo);
 }
 
 let statusFunc = function(response) {
@@ -29,6 +69,7 @@ function createElement(tag, className) {
 function createBookCard(books) {
     let book_id = 0;
     $catalogBox.innerHTML = "";
+    
     for (let i = 0; i < books.length; i++) {
         if (books[i].book_id == book_id) continue;
 
@@ -80,9 +121,22 @@ function createBookCard(books) {
 }
 
 function createListOfAuthors(authors) {
-
+    for (let i = 0; i < authors.length; i++) {
+        let $author = createElement('option');
+        $author.innerHTML = authors[i].author_surname;
+        $authors.append($author);
+    }
 }
 
+function createListOfYears(years) {
+    for (let i = 0; i < years.length; i++) {
+        let $year = createElement('option');
+        $year.innerHTML = years[i].year;
+        $years.append($year);
+    }
+}
+
+if (!authorSort && !yearSort && !costFromSort && !costToSort) {
     if (genre == "all")
     {
         fetch ("books/all/" + typeOfSort, {
@@ -106,16 +160,63 @@ function createListOfAuthors(authors) {
             })
             .catch((err) => {console.log(err);})
     }
+}
+
+    if (authorSort !== null) {
+        fetch ("authorbooks/" + authorSort, {
+            method: "GET",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" } })
+            .then (statusFunc)
+            .then ((response) => {return response.json();})
+            .then ((books) => {
+                createBookCard(books);           
+            })
+            .catch((err) => { console.log(err); })    
+    }   
+    
+    if (yearSort !== null) {
+        fetch ("yearbooks/" + yearSort, {
+            method: "GET",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" } })
+            .then (statusFunc)
+            .then ((response) => {return response.json();})
+            .then ((books) => {
+                createBookCard(books);           
+            })
+            .catch((err) => { console.log(err); })    
+    }   
+
+    if (costFromSort !== null && costToSort !== null) {
+        fetch ("costbooks/" + costFromSort + "/" + costToSort, {
+            method: "GET",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" } })
+            .then (statusFunc)
+            .then ((response) => {return response.json();})
+            .then ((books) => {
+                createBookCard(books);           
+            })
+            .catch((err) => { console.log(err); }) 
+    }
 
     fetch ("authors", {
         method: "GET",
         headers: { "Accept": "application/json", "Content-Type": "application/json" } })
         .then (statusFunc)
         .then ((response) => {return response.json();})
-        .then ((books) => {
-            createBookCard(books);           
+        .then ((authors) => {
+            createListOfAuthors(authors);           
         })
         .catch((err) => { console.log(err); })    
+
+    fetch ("years", {
+        method: "GET",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" } })
+        .then (statusFunc)
+        .then ((response) => {return response.json();})
+        .then ((years) => {
+            createListOfYears(years);           
+        })
+        .catch((err) => { console.log(err); })  
 
 function loadScript(src) {
     return new Promise(function(resolve, reject) {

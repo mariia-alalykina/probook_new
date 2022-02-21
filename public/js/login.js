@@ -1,7 +1,5 @@
 'use strict'
 
-//const res = require("express/lib/response");
-
 function checkEmail(email)
 {
     if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/))
@@ -97,38 +95,5 @@ async function log_in()
             
             return false;
         }
-
-        /* if(result == "false")
-        {
-            alert("Неверно введён логин или пароль. Попробуйте снова.");
-            window.location.reload();
-        }
-        else if (result == "true")
-        {
-            let u_id = '', 
-            u_name = '';
-            
-
-            $.ajax(
-            {
-                method: "POST",
-                url: "get_user_name.php",
-                dataType: "text",
-                async: false, 
-                data: user_data,
-                success: function(data) {
-                    u_name = data;
-                    console.log(u_name);
-                }
-            });
-            
-            sessionStorage.setItem("is_authorit", 1);
-            sessionStorage.setItem("u_id", u_id);
-            sessionStorage.setItem("u_name", u_name);
-            window.location.href = 'account.html';
-        }
-        else {alert('Ошибка входа!');}
-        
-        return false; */
     }
 }

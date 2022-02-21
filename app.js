@@ -254,6 +254,87 @@ app.get("/search/:text", (req, res) => {
     });
 });
 
+//get author's surnames 
+app.get('/authors', (req, res) => {
+    const query = `SELECT authors.author_surname FROM authors ORDER BY authors.author_surname;`
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: 'Ошибка запроса авторов!'})
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+//get all of the years of publishing
+app.get('/years', (req, res) => {
+    const query = `SELECT DISTINCT book.year FROM book ORDER BY book.year DESC;`
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: 'Ошибка запроса годов издания!'})
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+//get all of the books by author
+app.get('/authorbooks/:author', (req, res) => {
+    const author = req.params['author'];
+
+    const query = `SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE authors.author_surname = '${author}';`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: 'Ошибка поиска книг по автору!'});
+        }
+        else {
+            res.send(result);
+        }
+    })
+});
+
+//get all of the books by year
+app.get('/yearbooks/:year', (req, res) => {
+    const year = req.params['year'];
+
+    const query = `SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE book.year = ${year};`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: 'Ошибка поиска книг по году издания!'});
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+//get all of the books in the selected price range
+app.get('/costbooks/:cost_from/:cost_to', (req, res) => {
+    const costFrom = req.params['cost_from'];
+    const costTo = req.params['cost_to'];
+
+    const query = `SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE book.price BETWEEN ${costFrom} AND ${costTo};`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: "Ошибка поиска книг по диапазону цен!"});
+        } else {
+            res.send(result);
+        }
+    });
+});
+
 app.listen(3000, function() {
     console.log("Server started on 3000.");
 });
