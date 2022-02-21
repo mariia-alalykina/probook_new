@@ -65,7 +65,6 @@
 
     <div class = "main_catalog">
         <div class = "sort">
-            <form>
                 <label for="sort"><b>Сортировка: </b></label>
                 <select id = "sort" name = "sort_type">
                 <option value = "by_name" selected>по названию</option>
@@ -73,7 +72,34 @@
                 <option value = "by_price_down">по убыванию цены</option>
                 </select>
                 <input type="submit" value="Показать" onclick="getSorted()">
-            </form>
+        </div>
+
+        <div class = "sort">
+            <label for="author"><b>Автор: </b></label>
+            <select id = "author" name = "author">
+            <option value = "by_name" selected>по названию</option>
+            <option value = "by_price_up">по возрастанию цены</option>
+            <option value = "by_price_down">по убыванию цены</option>
+            </select>
+            <input type="submit" value="Выбрать" onclick="getSorted()">
+        </div>
+
+        <div class = "sort">
+            <label for="year"><b>Год: </b></label>
+            <select id = "year" name = "year">
+            <option value = "by_name" selected>по названию</option>
+            <option value = "by_price_up">по возрастанию цены</option>
+            <option value = "by_price_down">по убыванию цены</option>
+            </select>
+            <input type="submit" value="Выбрать" onclick="getSorted()">
+        </div>
+
+        <div class = "sort">
+            <label for="cost_from"><b>Цена: от </b></label>
+            <input name = "cost_from" size = "4">
+            <label for="cost_to"><b> до </b></label>
+            <input name = "cost_to" size = "4">
+            <input type="submit" value="Выбрать" onclick="getSorted()">
         </div>
 
         <div id = "book_catalog">

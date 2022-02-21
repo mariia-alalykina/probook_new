@@ -166,6 +166,7 @@ app.post("/signup", jsonParser, function(req, res) {
     });
 });
 
+//display all books with selected type of sort
 app.get("/books/all/:typeOfSort", (req, res) => {
     const typeOfSort = req.params["typeOfSort"];
 
@@ -201,6 +202,7 @@ app.get("/books/all/:typeOfSort", (req, res) => {
     });
 });
 
+//display books of selected genre with selected type of sort
 app.get("/books/:genre/:typeOfSort", (req, res) => {
     const genre = req.params['genre'];
     const typeOfSort = req.params["typeOfSort"];
@@ -218,6 +220,7 @@ app.get("/books/:genre/:typeOfSort", (req, res) => {
     });
 });
 
+//display all of the information about selected book
 app.get("/books/:id", (req, res) => {
     const bookId = req.params["id"];
 
@@ -227,6 +230,23 @@ app.get("/books/:id", (req, res) => {
         if(err) {
             console.log(err);
             res.json({ error: "Ошибка отображения книги!" });
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+//display results of searching by bookname or author
+app.get("/search/:text", (req, res) => {
+    const textForSearching = req.params["text"];
+
+    const query = `SELECT book.price, book.name, authors.author_name, authors.author_surname, book.book_id FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id WHERE book.name LIKE '%${textForSearching}%' OR authors.author_name LIKE '%${textForSearching}%' OR authors.author_surname LIKE '%${textForSearching}%';`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({ error: "Ошибка поиска книг!" });
         }
         else {
             res.send(result);

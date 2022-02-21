@@ -2,10 +2,11 @@
 
 let genre = sessionStorage.getItem('genre'),
     $catalogBox = document.querySelector('#book_catalog'),
-    typeOfSort = sessionStorage.getItem('sort');
+    typeOfSort = sessionStorage.getItem('sort'),
+    $authors = document.getElementById('author');
 
 function getSorted() {
-    let typeOfSort = document.getElementById('sort').value;
+    let typeOfSort = document.querySelector('.sort form').value;
     sessionStorage.setItem('sort', typeOfSort);
 }
 
@@ -78,6 +79,10 @@ function createBookCard(books) {
     }
 }
 
+function createListOfAuthors(authors) {
+
+}
+
     if (genre == "all")
     {
         fetch ("books/all/" + typeOfSort, {
@@ -86,13 +91,7 @@ function createBookCard(books) {
             .then (statusFunc)
             .then ((response) => {return response.json();})
             .then ((books) => {
-                createBookCard(books);
-                /* let $openBooks = document.querySelectorAll('.prod_card a');
-                for(let i = 0; i < $openBooks.length; i++) {
-                    $openBooks.addEventListener('click', function() {
-                        sessionStorage.setItem('book_id', $openBooks.getAttribute('data-id'));
-                    })
-                }      */           
+                createBookCard(books);           
             })
             .catch((err) => { console.log(err); })    
     }   
@@ -107,6 +106,16 @@ function createBookCard(books) {
             })
             .catch((err) => {console.log(err);})
     }
+
+    fetch ("authors", {
+        method: "GET",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" } })
+        .then (statusFunc)
+        .then ((response) => {return response.json();})
+        .then ((books) => {
+            createBookCard(books);           
+        })
+        .catch((err) => { console.log(err); })    
 
 function loadScript(src) {
     return new Promise(function(resolve, reject) {

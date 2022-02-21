@@ -616,8 +616,8 @@ input::-ms-input-placeholder
     position: relative;
     display: block;
     width: 35%;
-    left: 15%;
-    margin-top: 3%;
+    left: 7%;
+    margin-top: 1%;
 }
 
 .sort label
