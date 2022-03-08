@@ -1440,7 +1440,7 @@ input::-ms-input-placeholder
     margin: 5% 0;
 }
 
-input[type=tel], textarea
+input[type=tel], textarea, #order input
 {
   width: 100%;
   padding: 12px 20px;

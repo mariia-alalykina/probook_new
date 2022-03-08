@@ -104,7 +104,7 @@ app.get("/news", function(request, response){
 });
 
 //check whether user with these email and password exists
-app.post("/login", jsonParser, function(req, res) {
+app.post("/login", jsonParser, (req, res) => {
     if(!req.body) return res.sendStatus(400);
 
     const email = req.body.email;
@@ -113,7 +113,7 @@ app.post("/login", jsonParser, function(req, res) {
     let user = [email, password];
 
     const query = 'SELECT * FROM user WHERE email = ? AND password = ?;';
-    connection.query(query, user, function(err, result) {
+    connection.query(query, user, (err, result) => {
         if(err) console.log(err);
         if(result.length == 1) res.send("true");
         else res.send("false");
@@ -121,14 +121,14 @@ app.post("/login", jsonParser, function(req, res) {
 });
 
 // get user for entered personal account
-app.post("/users/:email/:password", function(req, res) {
+app.post("/users/:email/:password", (req, res) => {
     const email = req.params['email'];
     const password = req.params['password'];
 
     let user = [email, password];
 
     const query = 'SELECT * FROM user WHERE email = ? AND password = ?;';
-    connection.query(query, user, function(err, result) {
+    connection.query(query, user, (err, result) => {
         if(err) console.log(err);
         let user_ = null;
         user_ = result;
@@ -142,8 +142,7 @@ app.post("/users/:email/:password", function(req, res) {
 });
 
 //add new user to the database
-app.post("/signup", jsonParser, function(req, res) {
-    debugger;
+app.post("/signup", jsonParser, (req, res) => {
     if(!req.body) return res.sendStatus(400);
 
     const name = req.body.name;
@@ -155,7 +154,7 @@ app.post("/signup", jsonParser, function(req, res) {
 
     const query = "INSERT INTO user VALUES (NULL, ?, ?, ?, NULL, ?);";
 
-    connection.query(query, user, function(err, result) {
+    connection.query(query, user, (err, result) => {
         if(err) {
             console.log(err);
             res.send("Пользователь с таким email уже существует!");
@@ -333,6 +332,55 @@ app.get('/costbooks/:cost_from/:cost_to', (req, res) => {
             res.send(result);
         }
     });
+});
+
+app.post('/add_order', jsonParser, (req, res) => {
+    debugger;
+    if(!req.body) return res.sendStatus(400);
+
+    const userId = req.body.userId;
+    const phone = req.body.phone;
+    const region = req.body.region;
+    const town = req.body.town;
+    const postOffice = req.body.postOffice;
+    const payMethod = req.body.payMethod;
+    const orderStatus = req.body.orderStatus;
+    const totalCost = req.body.totalCost;
+
+    let order = [userId, phone, region, town, postOffice, payMethod, orderStatus, totalCost];
+
+    const query1 = `INSERT INTO book_order VALUES (NULL, ?, NOW(), ?, ?, ?, ?, ?, ?, ?);`;
+
+    connection.query(query1, order, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    });    
+});
+
+app.post('/add_order_books', jsonParser, (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+    debugger;
+
+    const books = req.body.books;
+
+    for (let key in books) {
+        let book = [key, books[key][3], books[key][4]];
+
+        let query = `INSERT INTO order_details VALUES (LAST_INSERT_ID(), ?, ?, ?);`
+
+        connection.query(query, book, (err, result) => {
+            if(err) {
+                console.log(err);
+                res.send('false');
+            }
+        })
+    }    
+
+    res.send('true');
 });
 
 app.listen(3000, function() {

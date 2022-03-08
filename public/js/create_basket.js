@@ -81,16 +81,119 @@ function removeFromBasket()
           delete cardData[item];          
         }
     }    
-    setCartData(cardData)
+    setCartData(cardData);
     
     window.location.reload();
 }
 
+function createElement(tag, className) {
+  const $tag = document.createElement(tag);
+  if (className) {
+      $tag.classList.add(className);
+  }
+  
+  return $tag;
+}
+
 function createOrderForm()
 {
-  let totalForm = '';
-  totalForm += '<div id = "order_form"><form id = "order" method="POST"><div class="container"><label for="phone"><b>Телефон</b></label><input type="tel" id = "phone" placeholder="+380xxxxxxxxx" name="phone" required><label for="region"><b>Область</b></label><input size = 17 id = "region" placeholder="Днепропетровская" name="region" required><label for="town"><b>Город</b></label><input size = 17 id = "town" placeholder="Днипро" name="town" required><label for="post_office"><b>Номер отделения НП/УкрПочты</b></label><input size = 17 id = "post_office" placeholder="НП 38" name="post_office" required><label for="pay_method"><b>Метод оплаты</b></label><input maxsize = 30 id = "pay_method" placeholder="Наложенный платёж" name="pay_method" required><button id = "send_form" type="submit" onclick = "return sendForm();">Отправить</button> <script> function sendForm() { let user = sessionStorage.getItem("u_id"), phone = document.querySelector("#phone").value, comment = document.querySelector("#comment").value, amount = localStorage.getItem("total_cost"), card_data = localStorage.getItem("card"); if(user == null) { user = -1; } let send_data = {user: user, phone: phone, comment: comment, amount: amount, card_data: card_data}, result; if (user && phone && comment && amount && card_data) { $.ajax( { method: "POST", url: "make_order.php", dataType: "text", async: false, data: send_data, success: function(data) { if(data == "true") { result = true; alert("Ваш заказ отправлен на обработку! Ожидайте, в ближайшее время с вами свяжется менеджер для уточнения деталей заказа."); } else { result = false; alert("Произошла ошибка. Заказ не был отправлен. попробуйте снова через несколько минут."); } } }); if (result === true) { localStorage.removeItem("card"); localStorage.setItem("count_in_basket", 0); window.location.reload(); } else if (result === false) { window.location.reload(); } } else {alert("Не все поля заполнены.");} return false; } </script></div></form></div>';
-  cardCont.innerHTML = totalForm;
+  let $orderForm = createElement('div');
+  $orderForm.setAttribute('id', 'order_form');
+
+  let $container = createElement('div', 'container');
+  $container.setAttribute('id', 'order');
+
+  let $labelPhone = createElement('label');
+  $labelPhone.setAttribute('for', 'phone');
+  let $bLabelPhone = createElement('b');
+  $bLabelPhone.innerHTML = 'Телефон';
+  $labelPhone.append($bLabelPhone);
+
+  let $phone = createElement('input');
+  $phone.setAttribute('type', 'tel');
+  $phone.setAttribute('id', 'phone');
+  $phone.setAttribute('placeholder', '+380xxxxxxxxx');
+  $phone.setAttribute('name', 'phone');
+  $phone.setAttribute('required', '');
+
+  let $labelRegion = createElement('label');
+  $labelRegion.setAttribute('for', 'region');
+  let $bLabelRegion = createElement('b');
+  $bLabelRegion.innerHTML = 'Область';
+  $labelRegion.append($bLabelRegion);
+
+  let $region = createElement('input');
+  $region.setAttribute('size', '17');
+  $region.setAttribute('id', 'region');
+  $region.setAttribute('placeholder', 'Днепропетровская');
+  $region.setAttribute('name', 'region');
+  $region.setAttribute('required', '');
+
+  let $labelTown = createElement('label');
+  $labelTown.setAttribute('for', 'town');
+  let $blabelTown = createElement('b');
+  $blabelTown.innerHTML = 'Город';
+  $labelTown.append($blabelTown);
+
+  let $town = createElement('input');
+  $town.setAttribute('size', '17');
+  $town.setAttribute('id', 'town');
+  $town.setAttribute('placeholder', 'Днипро');
+  $town.setAttribute('name', 'town');
+  $town.setAttribute('required', '');
+
+  let $labelPostOffice = createElement('label');
+  $labelPostOffice.setAttribute('for', 'post_office');
+  let $blabelPostOffice = createElement('b');
+  $blabelPostOffice.innerHTML = 'Номер отделения НП/УкрПочты';
+  $labelPostOffice.append($blabelPostOffice);
+
+  let $postOffice = createElement('input');
+  $postOffice.setAttribute('size', '17');
+  $postOffice.setAttribute('id', 'post_office');
+  $postOffice.setAttribute('placeholder', 'НП 38');
+  $postOffice.setAttribute('name', 'post_office');
+  $postOffice.setAttribute('required', '');
+
+  let $labelPayMethod = createElement('label');
+  $labelPayMethod.setAttribute('for', 'pay_method');
+  let $blabelPayMethod = createElement('b');
+  $blabelPayMethod.innerHTML = 'Метод оплаты';
+  $labelPayMethod.append($blabelPayMethod);
+
+  let $payMethod = createElement('input');
+  $payMethod.setAttribute('maxsize', '30');
+  $payMethod.setAttribute('id', 'pay_method');
+  $payMethod.setAttribute('placeholder', 'Наложенный платёж');
+  $payMethod.setAttribute('name', 'pay_method');
+  $payMethod.setAttribute('required', '');
+  
+  let $buttonSend = createElement('button');
+  $buttonSend.setAttribute('id', 'send_form');
+  $buttonSend.setAttribute('onclick', 'sendForm();');
+  $buttonSend.innerHTML = 'Отправить';
+
+  let $script = createElement('script');
+  $script.innerHTML = 'function sendForm() { let statusFunc = function(response) { if (response.status !== 200) { return Promise.reject(new Error(response.statusText)); } return Promise.resolve(response); } let user = sessionStorage.getItem("u_id"), $phone = document.querySelector("#phone").value, $region = document.querySelector("#region").value, $town = document.querySelector("#town").value, $postOffice = document.querySelector("#post_office").value, $payMethod = document.querySelector("#pay_method").value, amount = localStorage.getItem("total_cost"), cardData = JSON.parse(localStorage.getItem("card")), orderStatus = "Заказ оформлен"; if(user == null) { user = -1; } if (user && $phone && $region && $town && $postOffice && $payMethod && amount && cardData && orderStatus) { fetch ("add_order", { method: "POST", headers: { "Accept": "application/text", "Content-Type": "application/json" }, body: JSON.stringify({ userId: user, phone: $phone, region: $region, town: $town, postOffice: $postOffice, payMethod: $payMethod, orderStatus: orderStatus, totalCost: amount }) }) .then (statusFunc) .then ((response1) => {return response1.text();}) .then ((result1) => { if(result1 == "false") { alert("Произошла ошибка. Заказ не был отправлен. попробуйте снова через несколько минут."); } else if(result1 == "true") { fetch ("add_order_books", { method: "POST", headers: { "Accept": "application/text", "Content-Type": "application/json" }, body: JSON.stringify({ books: cardData }) }) .then (statusFunc) .then ((response2) => {return response2.text();}) .then ((result2) => { if(result2 == "false") { alert("Произошла ошибка. Заказ не был отправлен. попробуйте снова через несколько минут."); window.location.reload(); } else if (result2 == "true") { alert("Ваш заказ отправлен на обработку! Ожидайте, в ближайшее время с вами свяжется менеджер для уточнения деталей заказа."); localStorage.removeItem("card"); localStorage.setItem("count_in_basket", 0); window.location.reload(); } }) .catch((err) => { console.log(err); }) }) .catch((err) => { console.log(err); }) } else { alert("Не все поля заполнены."); } }';
+
+  $container.append($labelPhone);
+  $container.append($phone);
+  $container.append($labelRegion);
+  $container.append($region);
+  $container.append($labelTown);
+  $container.append($town);
+  $container.append($labelPostOffice);
+  $container.append($postOffice);
+  $container.append($labelPayMethod);
+  $container.append($payMethod);
+  $container.append($buttonSend);
+  $container.append($script);
+  
+  $orderForm.append($container);
+
+  cardCont.innerHTML = "";
+  cardCont.append($orderForm);
+
 }
 
 let goods_in_basket = 0;
