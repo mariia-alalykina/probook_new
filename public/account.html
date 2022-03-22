@@ -82,8 +82,27 @@
     </div>
 
     <div id = "account_block">
-        <h2>Добро пожаловать в личный кабинет!</h2>
-        <a id = "log_out" onclick="log_out()">Выйти</a>
+        <div id = "account_menu">
+            <a onclick="openProfile()">Профиль</a><br><br>
+            <a onclick="openOrderHistory()">История заказов</a>
+        </div>
+
+        <script>
+            function openProfile() {
+                sessionStorage.setItem('page', 'profile');
+                window.location.reload();
+            }
+            function openOrderHistory() {
+                sessionStorage.setItem('page', 'history');
+                window.location.reload();
+            }
+        </script>
+
+        <div style="display: block;position: absolute;width: 100%;top: 0px;z-index: 0">
+            <h2>Добро пожаловать в личный кабинет!</h2>
+            <a id = "log_out" onclick="log_out()">Выйти</a>
+        </div>
+
 
         <div id ="order_history">
             <!-- <p>История заказов пользователя (имя)</p>

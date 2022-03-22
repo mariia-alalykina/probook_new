@@ -334,6 +334,7 @@ app.get('/costbooks/:cost_from/:cost_to', (req, res) => {
     });
 });
 
+//add details about order
 app.post('/add_order', jsonParser, (req, res) => {
     debugger;
     if(!req.body) return res.sendStatus(400);
@@ -361,6 +362,7 @@ app.post('/add_order', jsonParser, (req, res) => {
     });    
 });
 
+//add books which are in order
 app.post('/add_order_books', jsonParser, (req, res) => {
     if(!req.body) return res.sendStatus(400);
     debugger;
@@ -381,6 +383,69 @@ app.post('/add_order_books', jsonParser, (req, res) => {
     }    
 
     res.send('true');
+});
+
+//get order history by user ID
+app.get('/order_history_id/:id', (req, res) => {
+    const id = Number.parseInt(req.params['id'], 10);
+
+    let query = `SELECT book_order.order_id, book_order.date, book_order.phone_number, book_order.region, book_order.town, 
+    book_order.post_office, book_order.payment_method, book_order.order_status, book_order.total_cost,
+    order_details.book_id, order_details.number_of_books, order_details.cost_of_book,
+    book.name, authors.author_name, authors.author_surname
+    FROM book_order 
+    LEFT JOIN order_details 
+    ON order_details.order_id = book_order.order_id 
+    LEFT JOIN book
+    ON book.book_id = order_details.book_id
+    LEFT JOIN books_authors
+    ON books_authors.book_id = order_details.book_id
+    LEFT JOIN authors 
+    ON authors.author_id = books_authors.author_id
+    WHERE book_order.user_id = ${id}`;
+
+        connection.query(query, (err, result) => {
+            if(err) {
+                console.log(err);
+                res.json({error: `Ошибка отображения истории заказов клиента с id ${id}`});
+            } else {
+                res.send(result);
+            }
+        })   
+});
+
+//get order history by the date
+app.get('/order_history_date/:date', (req, res) => {
+    const dateFrom = req.params['date'];
+
+    let date = new Date(Date.parse(dateFrom));
+    date.setDate(date.getDate() + 1);
+
+    const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
+
+    let query = `SELECT book_order.order_id, book_order.date, book_order.phone_number, book_order.region, book_order.town, 
+    book_order.post_office, book_order.payment_method, book_order.order_status, book_order.total_cost,
+    order_details.book_id, order_details.number_of_books, order_details.cost_of_book,
+    book.name, authors.author_name, authors.author_surname
+    FROM book_order 
+    LEFT JOIN order_details 
+    ON order_details.order_id = book_order.order_id 
+    LEFT JOIN book
+    ON book.book_id = order_details.book_id
+    LEFT JOIN books_authors
+    ON books_authors.book_id = order_details.book_id
+    LEFT JOIN authors 
+    ON authors.author_id = books_authors.author_id
+    WHERE book_order.date BETWEEN ${dateFrom} AND ${dateTo}`;
+
+        connection.query(query, (err, result) => {
+            if(err) {
+                console.log(err);
+                res.json({error: `Ошибка отображения истории заказов за дату ${dateFrom}`});
+            } else {
+                res.send(result);
+            }
+        })   
 });
 
 app.listen(3000, function() {
