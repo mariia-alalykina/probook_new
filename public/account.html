@@ -266,6 +266,34 @@
                 return Promise.resolve(response);
             } */
 
+            function deleteAccount() {
+                if(confirm("Вы действительно хотите удалить свой аккаунт?")) {
+                    fetch('users/' + userId, {
+                        method: "DELETE", 
+                        headers: {
+                            "Accept": "application/text", "Content-Type": "application/json", "Access-Control-Allow-Headers": "*"
+                        }
+                    })
+                    .then (statusFunc) 
+                    .then ((response) => { return response.json(); })
+                    .then ((result) => {
+                        if(result == true) {
+                            alert('Ваш аккаунт успешно удалён!');
+                            sessionStorage.removeItem('is_authorit');
+                            sessionStorage.removeItem('u_id');
+                            sessionStorage.removeItem('u_name');
+                            if(sessionStorage.getItem('page')) {
+                                sessionStorage.removeItem('page');
+                            }
+                            window.location.href = "login.html";
+                        } else if (result == false) {
+                            alert('Ошибка удаления аккаунта!');
+                        }
+                    })
+                    .catch((err) => { console.log(err); })
+                }
+            }
+
             function checkEmail(email)
             {
                 if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/))

@@ -508,6 +508,7 @@ app.put('/users/:id', jsonParser, (req, res) => {
     })
 }) 
 
+//delete user by id
 app.delete('/users/:id', (req, res) => {
     const userId = req.params['id'];
 
