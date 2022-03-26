@@ -1,3 +1,4 @@
+const { query } = require("express");
 const express = require("express");
 const mysql = require("mysql2");
 
@@ -365,7 +366,6 @@ app.post('/add_order', jsonParser, (req, res) => {
 //add books which are in order
 app.post('/add_order_books', jsonParser, (req, res) => {
     if(!req.body) return res.sendStatus(400);
-    debugger;
 
     const books = req.body.books;
 
@@ -447,6 +447,81 @@ app.get('/order_history_date/:date', (req, res) => {
             }
         })   
 });
+
+//get user data by id
+app.get('/users/:id', (req, res) => {
+    const userId = req.params['id'];
+
+    let query = `SELECT * FROM user WHERE user_id = ${userId}`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: `Ошибка получения данных пользователя с id ${userId}`});
+        } else {
+            res.send(result);
+        }
+    })
+})
+
+//update user data by id
+app.put('/users/:id', jsonParser, (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+
+    const userId = req.body.id;
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const email = req.body.email;
+    const phone = req.body.phone;
+    const password = req.body.password;
+
+    let query = `UPDATE user SET `;
+    
+    if (name) {
+        query += `name = '${name}'`;
+    }
+    if (surname) {
+        if(name) { query += `, `}
+        query += `surname = '${surname}'`;
+    }
+    if (email) {
+        if(name || surname) { query += `, ` }
+        query += `email = '${email}'`;
+    }
+    if (phone) {
+        if(name || surname || email) { query += `, ` }
+        query += `phone_number = '${phone}'`;
+    }
+    if (password) {
+        if(name || surname || email || phone) { query += `, ` }
+        query += `password = '${password}'`;
+    }
+    query += ` WHERE user_id = ${userId}`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+}) 
+
+app.delete('/users/:id', (req, res) => {
+    const userId = req.params['id'];
+
+    let query = `DELETE FROM user WHERE user_id = ${userId}`;
+
+    connection.query(query, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
 
 app.listen(3000, function() {
     console.log("Server started on 3000.");

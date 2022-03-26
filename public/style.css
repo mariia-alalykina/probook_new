@@ -1,3 +1,6 @@
+.hide {
+    display: none;;
+}
 
 /**********************************************  INDEX.HTML *********************************************/
 #index
@@ -177,7 +180,7 @@ header
     min-width: 160px;
     left: 17%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 2;
+    z-index: 10;
 }
 
 .drop_catalog a
@@ -1561,7 +1564,7 @@ input[type=tel], textarea, #order input
     
 }
 
-.add_book
+.working_with_data
 {
     display: inline-block;
     position: relative;
@@ -1571,7 +1574,7 @@ input[type=tel], textarea, #order input
     left: 25%;
     margin-bottom: 5%;
 }
-.add_book p
+.working_with_data p
 {
     display: inline-block; 
     position: relative; 
@@ -1597,7 +1600,7 @@ input[type=tel], textarea, #order input
     left: 40%;
     font-family: 'Montserrat', sans-serif;
     color: #330066;
-    text-decoration: none;;
+    text-decoration: none;
 }
 
 #admin_block a:hover,
@@ -1719,4 +1722,20 @@ input[type=tel], textarea, #order input
 
 .new_order {
     border-top: 1px dashed #003300;
+}
+
+#delete_account {
+    display: inline-block;
+    position: relative;
+    left: 56%;
+    font-family: 'Montserrat', sans-serif;
+    color: #330066;
+    text-decoration: none;
+    margin-top: 25px;
+}
+
+#delete_account:hover {
+    cursor: pointer;
+    background-color: #ae6ee9;
+    color: white;
 }

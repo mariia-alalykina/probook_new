@@ -19,10 +19,15 @@
     <script>
         function log_out()
         {
-            sessionStorage.removeItem('is_authorit');
-            sessionStorage.removeItem('u_id');
-            sessionStorage.removeItem('u_name');
-            window.location.href = "login.html";
+            if(confirm('Вы действительно хотите выйти из аккаунта?')) {
+                sessionStorage.removeItem('is_authorit');
+                sessionStorage.removeItem('u_id');
+                sessionStorage.removeItem('u_name');
+                if(sessionStorage.getItem('page')) {
+                    sessionStorage.removeItem('page');
+                }
+                window.location.href = "login.html";
+            }
         }
     </script>
     <title>Личный кабинет</title>
@@ -103,6 +108,143 @@
             <a id = "log_out" onclick="log_out()">Выйти</a>
         </div>
 
+        <!-- <div class = "working_with_data">
+            <p style = "position: relative; display: inline-block; font-family: 'Montserrat', sans-serif; width: 90%;">Изменить личные данные</p>
+            <div>
+                <label for="name"><b>Имя</b></label><input type="text" name="name" id = 'change_name'>
+                <label for="surname"><b>Фамилия</b></label><input type="text" name="surname" id = 'change_surname'>
+                <label for="phone"><b>Номер телефона</b></label><input type="phone" name="phone" id = 'change_phone'>
+                <label for="email"><b>Почта</b></label><input type="email" name="email" id = 'change_email'>
+                <label for="new_psw"><b>Новый пароль</b></label><input type="password" name="new_psw" id = 'new_psw'>
+                <label for="repeat_psw"><b>Повторите пароль</b></label><input type="password" name="repeat_psw" id = 'repeat_psw'>
+    
+                <button onclick="changeUserData()">Изменить</button>
+                
+                <a id = "delete_account" onclick="deleteAccount()">Удалить аккаунт</a>
+    
+                <script>
+                    let statusFunc = function(response) {
+                        if (response.status !== 200) {
+                            return Promise.reject(new Error(response.statusText));
+                        }
+                        return Promise.resolve(response);
+                    }
+
+                    function deleteAccount() {
+                        let id = sessionStorage.getItem('u_id');
+                        if(confirm('Вы действительно хотите удалить аккаунт?')) {
+                            fetch('users/' + id, {
+                                method: 'DELETE',
+                                headers: { "Accept": "application/text", "Content-Type": "application/json",
+                                    "Access-Control-Allow-Headers": "*" }
+                            })
+                            .then(statusFunc)
+                            .then((response) => {return response.json();})
+                                .then ((result) => {
+                                    if(result == false) {
+                                        alert('Ошибка удаления аккаунта!');
+                                        window.location.reload();
+                                    } else if (result == true){
+                                        alert('Ваш аккаунт успешно удалён!');
+                                        sessionStorage.removeItem('page');
+                                        log_out();
+                                    }
+                                })          
+                                .catch((err) => { console.log(err); })
+                        }
+                    }
+
+                    function checkEmail(email)
+                    {
+                        if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/))
+                        {
+                            return true;
+                        }
+                        else if (email === "") return false;
+                        else 
+                        {
+                            alert('Введён некорректный адрес электронной почты.');
+                            return false;
+                        }
+                    }
+
+                    function checkPhone(phone) {
+                        if(phone.match(/^380\d{9}$/)) { return true; }
+                        else if(phone === "") return false;
+                        else {
+                            alert('Введён некорректный номер телефона.');
+                            return false;
+                        }
+                    }
+
+                    function checkPsw(psw)
+                    {
+                        if (psw.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/)) { return true; }
+                        else if (psw === "") return false;
+                        else
+                        {
+                            alert('Введён некорректный пароль. Пароль должен содержать латинские буквы верхнего и нижнего регистра, цифры и иметь длину не менее 6 символов.');
+                            return false;
+                        }
+                    }
+
+                    function checkPswMatch(psw1, psw2)
+                    {
+                        if (psw1 === psw2) { return true; }
+                        else 
+                        {
+                            alert('Пароли не совпадают!');
+                            return false;
+                        }
+                    }
+
+                    function changeUserData()
+                    {
+                        let userId = sessionStorage.getItem('u_id'),
+                        name = document.getElementById('change_name').value,
+                        surname = document.getElementById('change_surname').value,
+                        phone = document.getElementById('change_phone').value,
+                        email = document.getElementById('change_email').value,
+                        new_psw = document.getElementById('new_psw').value,
+                        repeat_psw = document.getElementById('repeat_psw').value;
+    
+                        if (name || surname || checkPhone(phone) || checkEmail(email) || checkPsw(new_psw))
+                        {
+                            if (checkPswMatch(new_psw, repeat_psw)) {
+                                fetch ("users/" + userId, {
+                                method: "PUT",
+                                headers: { "Accept": "application/text", "Content-Type": "application/json",
+                                "Access-Control-Allow-Headers": "*" },
+                                body: JSON.stringify({
+                                    id: userId,
+                                    name: name,
+                                    surname: surname,
+                                    phone: phone,
+                                    email: email,
+                                    password: new_psw
+                                })
+                                })
+                                .then (statusFunc)
+                                .then ((response) => {return response.json();})
+                                .then ((result) => {
+                                    if(result == false) {
+                                        alert('Ошибка обновления данных!');
+                                        window.location.reload();
+                                    } else if (result == true){
+                                        alert('Данные успешно обновлены!');
+                                        window.location.reload();
+                                    }
+                                })          
+                                .catch((err) => { console.log(err); })
+                            }                            
+                        } else {
+                            alert('Заполните хоть одно поле!');
+                        }
+                    }
+                    
+                </script>
+            </div>
+        </div> -->
 
         <div id ="order_history">
             <!-- <p>История заказов пользователя (имя)</p>
@@ -114,8 +256,105 @@
                 <tr>
                     <td class = "order_id"></td><td></td><td><a href = "book.html" data-id = "2" onclick="getId(this)"><p>НЕ НОЙ. Вековая мудрость, которая гласит: хватит жаловаться пора становиться богатым</p></a></td><td>Джен Синсеро</td><td class = "number">1</td><td class = "cost"><span>125</span> грн.</td><td class = "amount"></td>
                 </tr>
-            </table>         -->
+            </table>  -->       
         </div>
+        <script>
+            /* let statusFunc = function(response) {
+                if (response.status !== 200) {
+                    return Promise.reject(new Error(response.statusText));
+                }
+                return Promise.resolve(response);
+            } */
+
+            function checkEmail(email)
+            {
+                if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/))
+                {
+                    return true;
+                }
+                else if (email === "") return false;
+                else 
+                {
+                    alert('Введён некорректный адрес электронной почты.');
+                    return false;
+                }
+            }
+
+            function checkPhone(phone) {
+                if(phone.match(/^380\d{9}$/)) { return true; }
+                else if(phone === "") return false;
+                else {
+                    alert('Введён некорректный номер телефона.');
+                    return false;
+                }
+            }
+
+            function checkPsw(psw)
+            {
+                if (psw.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/)) { return true; }
+                else if (psw === "") return false;
+                else
+                {
+                    alert('Введён некорректный пароль. Пароль должен содержать латинские буквы верхнего и нижнего регистра, цифры и иметь длину не менее 6 символов.');
+                    return false;
+                }
+            }
+
+            function checkPswMatch(psw1, psw2)
+            {
+                if (psw1 === psw2) { return true; }
+                else 
+                {
+                    alert('Пароли не совпадают!');
+                    return false;
+                }
+            }
+
+            function changeUserData()
+            {
+                let userId = sessionStorage.getItem('u_id'),
+                name = document.getElementById('change_name').value,
+                surname = document.getElementById('change_surname').value,
+                phone = document.getElementById('change_phone').value,
+                email = document.getElementById('change_email').value,
+                new_psw = document.getElementById('new_psw').value,
+                repeat_psw = document.getElementById('repeat_psw').value;
+
+                if (name || surname || checkPhone(phone) || checkEmail(email) || checkPsw(new_psw))
+                {
+                    if (checkPswMatch(new_psw, repeat_psw)) {
+                        fetch ("users/" + userId, {
+                        method: "PUT",
+                        headers: { "Accept": "application/text", "Content-Type": "application/json",
+                        "Access-Control-Allow-Headers": "*" },
+                        body: JSON.stringify({
+                            id: userId,
+                            name: name,
+                            surname: surname,
+                            phone: phone,
+                            email: email,
+                            password: new_psw
+                        })
+                        })
+                        .then (statusFunc)
+                        .then ((response) => {return response.json();})
+                        .then ((result) => {
+                            if(result == false) {
+                                alert('Ошибка обновления данных!');
+                                window.location.reload();
+                            } else if (result == true){
+                                alert('Данные успешно обновлены!');
+                                window.location.reload();
+                            }
+                        })          
+                        .catch((err) => { console.log(err); })
+                    }                            
+                } else {
+                    alert('Заполните хоть одно поле!');
+                }
+            }
+            
+        </script>
     </div>
     
     <script src = "js/show_order_history.js"></script>

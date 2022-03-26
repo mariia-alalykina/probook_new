@@ -120,11 +120,139 @@ function createHistoryTable(orders) {
     }
 }
 
+function createUserDataBlock() {
+    let $userData = createElement('div', 'working_with_data');
+
+    let $headOfBlock = createElement('p');
+    $headOfBlock.setAttribute('style', "position: relative; display: inline-block; font-family: 'Montserrat', sans-serif; width: 90%;");
+    $headOfBlock.innerHTML = 'Изменить личные данные';
+
+    let $blockOfUserData = createElement('div');
+
+    let $labelName = createElement('label');
+    $labelName.setAttribute('for', 'name');
+    let $bName = createElement('b');
+    $bName.innerHTML = 'Имя';
+    $labelName.append($bName);
+    let $inputName = createElement('input');
+    $inputName.setAttribute('type', 'text');
+    $inputName.setAttribute('name', 'name');
+    $inputName.setAttribute('id', 'change_name');
+
+    let $labelSurname = createElement('label');
+    $labelSurname.setAttribute('for', 'surname');
+    let $bSurname = createElement('b');
+    $bSurname.innerHTML = 'Фамилия';
+    $labelSurname.append($bSurname);
+    let $inputSurname = createElement('input');
+    $inputSurname.setAttribute('type', 'text');
+    $inputSurname.setAttribute('name', 'surname');
+    $inputSurname.setAttribute('id', 'change_surname');
+
+    let $labelPhone = createElement('label');
+    $labelPhone.setAttribute('for', 'phone');
+    let $bPhone = createElement('b');
+    $bPhone.innerHTML = 'Номер телефона';
+    $labelPhone.append($bPhone);
+    let $inputPhone = createElement('input');
+    $inputPhone.setAttribute('type', 'phone');
+    $inputPhone.setAttribute('name', 'phone');
+    $inputPhone.setAttribute('id', 'change_phone');
+
+    let $labelEmail = createElement('label');
+    $labelEmail.setAttribute('for', 'email');
+    let $bEmail = createElement('b');
+    $bEmail.innerHTML = 'Почта';
+    $labelEmail.append($bEmail);
+    let $inputEmail = createElement('input');
+    $inputEmail.setAttribute('type', 'email');
+    $inputEmail.setAttribute('name', 'email');
+    $inputEmail.setAttribute('id', 'change_email');
+
+    let $labelPsw1 = createElement('label');
+    $labelPsw1.setAttribute('for', 'new_psw');
+    let $bPsw1 = createElement('b');
+    $bPsw1.innerHTML = 'Новый пароль';
+    $labelPsw1.append($bPsw1);
+    let $inputPsw1 = createElement('input');
+    $inputPsw1.setAttribute('type', 'password');
+    $inputPsw1.setAttribute('name', 'new_psw');
+    $inputPsw1.setAttribute('id', 'new_psw');
+
+    let $labelPsw2 = createElement('label');
+    $labelPsw2.setAttribute('for', 'repeat_psw');
+    let $bPsw2 = createElement('b');
+    $bPsw2.innerHTML = 'Повторите пароль';
+    $labelPsw2.append($bPsw2);
+    let $inputPsw2 = createElement('input');
+    $inputPsw2.setAttribute('type', 'password');
+    $inputPsw2.setAttribute('name', 'repeat_psw');
+    $inputPsw2.setAttribute('id', 'repeat_psw');
+
+    let $changeButton = createElement('button');
+    $changeButton.setAttribute('onclick', 'changeUserData()');
+    $changeButton.innerHTML = 'Изменить';
+
+    let $deleteButton = createElement('a');
+    $deleteButton.setAttribute('id', 'delete_account');
+    $deleteButton.setAttribute('onclick', 'deleteAccount()');
+    $deleteButton.innerHTML = 'Удалить аккаунт';
+
+    $userData.append($headOfBlock);
+
+    $blockOfUserData.append($labelName);
+    $blockOfUserData.append($inputName);
+    $blockOfUserData.append($labelSurname);
+    $blockOfUserData.append($inputSurname);
+    $blockOfUserData.append($labelPhone);
+    $blockOfUserData.append($inputPhone);
+    $blockOfUserData.append($labelEmail);
+    $blockOfUserData.append($inputEmail);
+    $blockOfUserData.append($labelPsw1);
+    $blockOfUserData.append($inputPsw1);
+    $blockOfUserData.append($labelPsw2);
+    $blockOfUserData.append($inputPsw2);
+    $blockOfUserData.append($changeButton);
+    $blockOfUserData.append($deleteButton);
+
+    $userData.append($blockOfUserData);
+
+    document.getElementById('account_block').append($userData);
+}
+
+function fillInFields(userData) {
+    document.getElementById('change_name').value = userData[0].name;
+    document.getElementById('change_surname').value = userData[0].surname;
+    document.getElementById('change_phone').value = userData[0].phone_number;
+    document.getElementById('change_email').value = userData[0].email;
+}
+
 window.onload = function() {
     if(sessionStorage.getItem('page') === 'profile') {
-         
+         createUserDataBlock();
+         fetch ("users/" + userId, {
+            method: "GET",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" }
+            })
+            .then (statusFunc)
+            .then ((response) => { return response.json(); })
+            .then ((result) => {
+                fillInFields(result);
+            })
+            .catch((err) => { console.log(err); })
     }
     else {
+        fetch ("users/" + userId, {
+            method: "GET",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" }
+            })
+            .then (statusFunc)
+            .then ((response) => { return response.json(); })
+            .then ((result) => {
+                sessionStorage.setItem('u_name', result[0].name);
+            })
+            .catch((err) => { console.log(err); })
+
         fetch ("order_history_id/" + userId, {
             method: "GET",
             headers: { "Accept": "application/json", "Content-Type": "application/json" }
