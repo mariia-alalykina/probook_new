@@ -20,13 +20,18 @@
     <script>
         function log_out()
         {
-            sessionStorage.removeItem('is_authorit');
-            sessionStorage.removeItem('u_id');
-            sessionStorage.removeItem('u_name');
-            window.location.href = "login.html";
+            if(confirm('Вы действительно хотите выйти из аккаунта?')) {
+                sessionStorage.removeItem('is_authorit');
+                sessionStorage.removeItem('u_id');
+                sessionStorage.removeItem('u_name');
+                if(sessionStorage.getItem('page')) {
+                    sessionStorage.removeItem('page');
+                }
+                window.location.href = "login.html";
+            }
         }
     </script>
-    <title>Админка</title>
+    <title>Админ</title>
 </head>
 
 <header>
@@ -83,13 +88,30 @@
     </div>
 
     <div id = 'admin_block'>
-        <p id = "hello_admin">Добро пожаловать в админку!</p>
-        <a onclick="log_out()">Выйти</a>
+        <div id = "admin_menu">
+            <a onclick="openAddingBook()">Добавить книгу</a><br><br>
+            <a onclick="openChangingDeletingBook()">Изменить/удалить книгу</a>
+        </div>
 
+        <script>
+            function openAddingBook() {
+                sessionStorage.setItem('page', 'add_book');
+                window.location.reload();
+            }
+            function openChangingDeletingBook() {
+                sessionStorage.setItem('page', 'change_delete_book');
+                window.location.reload();
+            }
+        </script>
+
+        <p id = "hello_admin">Добро пожаловать в аккаунт администратора ассортимента!</p>
+        <a class = "log_out_button" onclick="log_out()">Выйти</a>
+<!-- 
         <div class = "working_with_data">
             <p style = "position: relative; display: inline-block; font-family: 'Montserrat', sans-serif; width: 90%;">Добавить книгу</p>
-            <form method="POST">
-                <label for="author"><b>Автор</b></label><input type="text" name="author" id = 'add_author' required>
+            <div>
+                <label for="author_name"><b>Имя автора</b></label><input type="text" name="author_name" id = 'add_author_name' required>
+                <label for="author_surname"><b>Фамилия автора</b></label><input type="text" name="author_surname" id = 'add_author_surname' required>
                 <label for="series"><b>Серия</b></label><input type="text" name="series" id = 'add_series' required>
                 <label for="b_name"><b>Название</b></label><input type="text" name="b_name" id = 'add_name' required>
                 <label for="publishing_house"><b>Издательство</b></label><input type="text" name="publishing_house" id = 'add_publishing_house' required>
@@ -97,12 +119,20 @@
                 <label for="number_of_pages"><b>Количество страниц</b></label><input type="text" name="number_of_pages" id = 'add_number_of_pages' required>
                 <label for="age_limit"><b>Возрастное ограничение</b></label><input type="text" name="age_limit" id = 'add_age_limit' required>
                 <label for="description"><b>Описание</b></label><input type="text" name="description" id = 'add_description' required>
-                <label for="genre"><b>Жанр</b></label><input type="text" name="genre" id = 'add_genre' required>
+                <label for="genre"><b>Жанр</b></label>
+                <select id = 'genres' name = 'genre' required>
+                    <option selected>Выберите жанр</option>
+                    <option value = 'Художественная литература'>Художественная литература</option>
+                    <option value = 'Научно-популярная литература'>Научно-популярная литература</option>
+                    <option value = 'Учебная литература'>Учебная литература</option>
+                    <option value = 'Саморазвитие'>Саморазвитие</option>
+                    <option value="Биографии, мемуары">Биографии, мемуары</option>
+                </select><br><br>
                 <label for="availability"><b>Наличие</b></label><input type="text" name="availability" id = 'add_availability' required>
                 <label for="price"><b>Цена</b></label><input type="text" name="price" id = 'add_price' required>
                 <label for="image"><b>Ссылка на изображение</b></label><input type="text" name="image" id = 'add_image' required>
     
-                <button type="submit" onclick="return add_book()">Добавить</button>
+                <button onclick="addBook()">Добавить</button>
     
                 <script>
                     function add_book()
@@ -141,16 +171,12 @@
                     }
                     
                 </script>
-            </form>
-        </div>
+            </div>
+        </div> -->
     </div>
-    
-    
-
-
-
-    
+        
     <script src = "js/goods_in_basket.js"></script>
     <script src="js/menu.js"></script>
+    <script src = "js/add_book.js"></script>
 </body>
 </html>

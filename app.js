@@ -524,6 +524,33 @@ app.delete('/users/:id', (req, res) => {
     })
 })
 
+app.post('/book/add', jsonParser, (req, res) => {
+    const authorName = req.body.authorName;
+    const authorSurname = req.body.authorSurname;
+    const series = req.body.series;
+    const bookName = req.body.bookName;
+    const publishingHouse = req.body.publishingHouse;
+    const year = req.body.year;
+    const numberOfPages = req.body.numberOfPages;
+    const ageLimit = req.body.ageLimit;
+    const description = req.body.description; 
+    const genre = req.body.genre;
+    const availability = req.body.availability;
+    const price = req.body.price;
+    const image = req.body.image;
+
+    let query = `CALL add_book('${series}', '${bookName}', '${publishingHouse}', ${year}, ${numberOfPages}, '${ageLimit}', '${description}', '${genre}', '${availability}', ${price}, '${image}', '${authorName}', '${authorSurname}');`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
+
 app.listen(3000, function() {
     console.log("Server started on 3000.");
 });

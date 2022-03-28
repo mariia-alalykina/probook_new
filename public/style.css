@@ -1559,29 +1559,7 @@ input[type=tel], textarea, #order input
     font-family: 'Montserrat', sans-serif; 
     font-size: 1.2em; 
     color: #330066; 
-    left: 38%; 
-    width: 50%;
-    
-}
-
-.working_with_data
-{
-    display: inline-block;
-    position: relative;
-    width: 40%;
-    padding: 1% 5%;
-    border: 1px solid #336633;
-    left: 25%;
-    margin-bottom: 5%;
-}
-.working_with_data p
-{
-    display: inline-block; 
-    position: relative; 
-    font-family: 'Montserrat', sans-serif; 
-    font-size: 1em; 
-    font-weight: 600;
-    color: #330066; 
+    left: 25%;     
 }
 
 #admin_block
@@ -1591,7 +1569,7 @@ input[type=tel], textarea, #order input
     width: 95%;
 }
 
-#admin_block a,
+.log_out_button,
 #log_out
 {
     display: inline-block;
@@ -1603,12 +1581,58 @@ input[type=tel], textarea, #order input
     text-decoration: none;
 }
 
-#admin_block a:hover,
+.log_out_button:hover,
 #log_out:hover
 {
     cursor: pointer;
     background-color: #ae6ee9;
     color: white;
+}
+
+#admin_menu {
+    position: absolute;
+    display: block;
+    border: 1px solid #297929;
+    width: 15%;
+    border-radius: 7px;
+    top: 25px;
+    padding: 10px;
+    z-index: 5;
+    left: 2%;
+}
+
+#admin_menu a {
+    text-decoration: none;
+    text-align: center;
+    margin-left: 5%;
+    font-family: 'Montserrat',sans-serif;
+    font-size: 1em;
+    color: #306;
+    font-weight: 300;
+    font-style: italic;
+}
+
+#admin_menu a:hover {
+    background-color: rgba(51, 0, 102, 0.7);
+    color: white;
+    cursor: pointer;
+}
+
+#genres {
+    border-radius: 7px;
+    padding: 1%;
+    width: 70%;
+    border: 1px solid #999999;
+    color: #330066;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 0.9em;
+    margin-top: 1%;
+    overflow: hidden;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url(images/arrow_down.png) 96% / 5% no-repeat #ffffff;
 }
 
 /*********************************************** ACCOUNT.HTML *********************************************/
@@ -1738,4 +1762,24 @@ input[type=tel], textarea, #order input
     cursor: pointer;
     background-color: #ae6ee9;
     color: white;
+}
+
+.working_with_data
+{
+    display: inline-block;
+    position: relative;
+    width: 40%;
+    padding: 1% 5%;
+    border: 1px solid #336633;
+    left: 25%;
+    margin-bottom: 5%;
+}
+.working_with_data p
+{
+    display: inline-block; 
+    position: relative; 
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 1em; 
+    font-weight: 600;
+    color: #330066; 
 }

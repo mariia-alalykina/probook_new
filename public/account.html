@@ -259,13 +259,6 @@
             </table>  -->       
         </div>
         <script>
-            /* let statusFunc = function(response) {
-                if (response.status !== 200) {
-                    return Promise.reject(new Error(response.statusText));
-                }
-                return Promise.resolve(response);
-            } */
-
             function deleteAccount() {
                 if(confirm("Вы действительно хотите удалить свой аккаунт?")) {
                     fetch('users/' + userId, {
