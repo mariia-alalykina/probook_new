@@ -8,8 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,600;1,700&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src = "js/add_book.js"></script>
+    <!-- <script src = "js/add_book.js"></script> -->
     <script>
         if (!sessionStorage.getItem('is_authorit'))
         {
@@ -90,6 +89,7 @@
     <div id = 'admin_block'>
         <div id = "admin_menu">
             <a onclick="openAddingBook()">Добавить книгу</a><br><br>
+            <a onclick="openAddingAuthor()">Добавить автора</a><br><br>
             <a onclick="openChangingDeletingBook()">Изменить/удалить книгу</a>
         </div>
 
@@ -102,25 +102,39 @@
                 sessionStorage.setItem('page', 'change_delete_book');
                 window.location.reload();
             }
+            function openAddingAuthor() {
+                sessionStorage.setItem('page', 'add_author');
+                window.location.reload();
+            }
         </script>
 
         <p id = "hello_admin">Добро пожаловать в аккаунт администратора ассортимента!</p>
         <a class = "log_out_button" onclick="log_out()">Выйти</a>
-<!-- 
-        <div class = "working_with_data">
-            <p style = "position: relative; display: inline-block; font-family: 'Montserrat', sans-serif; width: 90%;">Добавить книгу</p>
+
+        <!-- <div class = "working_with_data">
+            <p style = "position: relative; display: inline-block; font-family: 'Montserrat', sans-serif; width: 90%;">Изменить данные книги</p>
+            <label for="book_id"><b>Выберите ID книги: </b></label>
+            <div class = "selection">
+                <select id = "input_book_id" name = "book_id">
+                    <option>-</option>
+                    <option value = "by_name" >по названию</option>
+                    <option value = "by_price_up">по возрастанию цены</option>
+                    <option value = "by_price_down">по убыванию цены</option>
+                    </select>
+            </div>
+        <input type="button" value="Отобразить данные" onclick="showBookData()"><br><br>
             <div>
-                <label for="author_name"><b>Имя автора</b></label><input type="text" name="author_name" id = 'add_author_name' required>
-                <label for="author_surname"><b>Фамилия автора</b></label><input type="text" name="author_surname" id = 'add_author_surname' required>
-                <label for="series"><b>Серия</b></label><input type="text" name="series" id = 'add_series' required>
-                <label for="b_name"><b>Название</b></label><input type="text" name="b_name" id = 'add_name' required>
-                <label for="publishing_house"><b>Издательство</b></label><input type="text" name="publishing_house" id = 'add_publishing_house' required>
-                <label for="year"><b>Год</b></label><input type="text" name="year" id = 'add_year' required>
-                <label for="number_of_pages"><b>Количество страниц</b></label><input type="text" name="number_of_pages" id = 'add_number_of_pages' required>
-                <label for="age_limit"><b>Возрастное ограничение</b></label><input type="text" name="age_limit" id = 'add_age_limit' required>
-                <label for="description"><b>Описание</b></label><input type="text" name="description" id = 'add_description' required>
+                <label for="author_name"><b>Имя автора</b></label><input type="text" name="author_name" id = 'add_author_name'>
+                <label for="author_surname"><b>Фамилия автора</b></label><input type="text" name="author_surname" id = 'add_author_surname'>
+                <label for="series"><b>Серия</b></label><input type="text" name="series" id = 'add_series'>
+                <label for="b_name"><b>Название</b></label><input type="text" name="b_name" id = 'add_name'>
+                <label for="publishing_house"><b>Издательство</b></label><input type="text" name="publishing_house" id = 'add_publishing_house'>
+                <label for="year"><b>Год</b></label><input type="text" name="year" id = 'add_year'>
+                <label for="number_of_pages"><b>Количество страниц</b></label><input type="text" name="number_of_pages" id = 'add_number_of_pages'>
+                <label for="age_limit"><b>Возрастное ограничение</b></label><input type="text" name="age_limit" id = 'add_age_limit'>
+                <label for="description"><b>Описание</b></label><input type="text" name="description" id = 'add_description'>
                 <label for="genre"><b>Жанр</b></label>
-                <select id = 'genres' name = 'genre' required>
+                <select id = 'genres' name = 'genre'>
                     <option selected>Выберите жанр</option>
                     <option value = 'Художественная литература'>Художественная литература</option>
                     <option value = 'Научно-популярная литература'>Научно-популярная литература</option>
@@ -128,12 +142,25 @@
                     <option value = 'Саморазвитие'>Саморазвитие</option>
                     <option value="Биографии, мемуары">Биографии, мемуары</option>
                 </select><br><br>
-                <label for="availability"><b>Наличие</b></label><input type="text" name="availability" id = 'add_availability' required>
-                <label for="price"><b>Цена</b></label><input type="text" name="price" id = 'add_price' required>
-                <label for="image"><b>Ссылка на изображение</b></label><input type="text" name="image" id = 'add_image' required>
+                <label for="availability"><b>Наличие</b></label><input type="text" name="availability" id = 'add_availability'>
+                <label for="price"><b>Цена</b></label><input type="text" name="price" id = 'add_price'>
+                <label for="image"><b>Ссылка на изображение</b></label><input type="text" name="image" id = 'add_image'>
     
-                <button onclick="addBook()">Добавить</button>
+                <button onclick="changeBook()">Изменить</button>
     
+                <br><br>
+
+                <label for="del_book_id"><b>Выберите ID книги для удаления: </b></label>
+                <div class = "selection">
+                    <select id = "input_del_book_id" name = "del_book_id">
+                        <option>-</option>
+                        <option value = "by_name" >по названию</option>
+                        <option value = "by_price_up">по возрастанию цены</option>
+                        <option value = "by_price_down">по убыванию цены</option>
+                        </select>
+                </div>
+                <button onclick="deleteBook()">Удалить книгу</button>
+
                 <script>
                     function add_book()
                     {

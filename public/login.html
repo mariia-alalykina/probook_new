@@ -14,7 +14,7 @@
     <script>
         if (sessionStorage.getItem('is_authorit'))
         {
-            if(sessionStorage.getItem('u_id') == 0)
+            if(sessionStorage.getItem('u_id') == 0 || sessionStorage.getItem('u_id') == -3 || sessionStorage.getItem('u_id') == -4 )
             {
                 window.location.href = 'admin.html';
             }

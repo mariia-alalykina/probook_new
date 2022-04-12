@@ -1635,6 +1635,33 @@ input[type=tel], textarea, #order input
     background: url(images/arrow_down.png) 96% / 5% no-repeat #ffffff;
 }
 
+.selection {
+    position: relative;
+    display: inline-block;
+    width: 15%;
+}
+
+.selection select {
+    border-radius: 7px;
+padding: 1%;
+width: 95%;
+border: 1px solid #999999;
+color: #330066;
+font-family: 'Montserrat', sans-serif;
+font-weight: 300;
+font-size: 0.9em;
+margin-top: 1%;
+overflow: hidden;
+appearance: none;
+-webkit-appearance: none;
+-moz-appearance: none;
+background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
+}
+
+#choose_author {
+    width: 300%;
+    height: 30px;
+}
 /*********************************************** ACCOUNT.HTML *********************************************/
 
 #account_menu {
@@ -1782,4 +1809,11 @@ input[type=tel], textarea, #order input
     font-size: 1em; 
     font-weight: 600;
     color: #330066; 
+}
+
+.working_with_data button,
+.working_with_data input[type='button'],
+.working_with_data select,
+.working_with_data option {
+    cursor: pointer;
 }

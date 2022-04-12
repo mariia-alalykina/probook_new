@@ -166,6 +166,20 @@ app.post("/signup", jsonParser, (req, res) => {
     });
 });
 
+//get all of the books
+app.get("/books", (req, res) => {
+    let query = `SELECT book_image.url_image, book.price, book.name, authors.author_id, authors.author_name, authors.author_surname, book.book_id, book.series, book.publishing_house, book.year, book.number_of_pages, book.age_limit, book.description, book.availability FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id;`;
+
+    connection.query(query, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.json({error: 'Ошибка получения данных книг!'});
+        } else {
+            res.send(result);
+        }
+    })
+})
+
 //display all books with selected type of sort
 app.get("/books/all/:typeOfSort", (req, res) => {
     const typeOfSort = req.params["typeOfSort"];
@@ -224,7 +238,7 @@ app.get("/books/:genre/:typeOfSort", (req, res) => {
 app.get("/books/:id", (req, res) => {
     const bookId = req.params["id"];
 
-    const query = `SELECT book_image.url_image, book.price, book.name, authors.author_name, authors.author_surname, book.book_id, book.series, book.publishing_house, book.year, book.number_of_pages, book.age_limit, book.description, book.availability FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE books_authors.book_id = ${bookId};`;
+    const query = `SELECT book_image.url_image, book.price, book.name, book.genre, authors.author_id, authors.author_name, authors.author_surname, book.book_id, book.series, book.publishing_house, book.year, book.number_of_pages, book.age_limit, book.description, book.availability FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id WHERE books_authors.book_id = ${bookId};`;
 
     connection.query(query, (err, result) => {
         if(err) {
@@ -256,7 +270,7 @@ app.get("/search/:text", (req, res) => {
 
 //get author's surnames 
 app.get('/authors', (req, res) => {
-    const query = `SELECT authors.author_surname FROM authors ORDER BY authors.author_surname;`
+    const query = `SELECT authors.author_id, authors.author_surname, authors.author_name FROM authors ORDER BY authors.author_surname;`
 
     connection.query(query, (err, result) => {
         if(err) {
@@ -265,6 +279,26 @@ app.get('/authors', (req, res) => {
         }
         else {
             res.send(result);
+        }
+    });
+});
+
+//add author
+app.post('/author', jsonParser, (req, res) => {
+    let authorName = req.body.name;
+    let authorSurname = req.body.surname;
+
+    let author = [authorSurname, authorName];
+
+    const query = `INSERT INTO authors VALUES(NULL, ?, ?);`
+
+    connection.query(query, author, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        }
+        else {
+            res.send('true');
         }
     });
 });
@@ -524,9 +558,9 @@ app.delete('/users/:id', (req, res) => {
     })
 })
 
-app.post('/book/add', jsonParser, (req, res) => {
-    const authorName = req.body.authorName;
-    const authorSurname = req.body.authorSurname;
+//add new book
+app.post('/book', jsonParser, (req, res) => {
+    const authorId = req.body.authorId;
     const series = req.body.series;
     const bookName = req.body.bookName;
     const publishingHouse = req.body.publishingHouse;
@@ -539,7 +573,129 @@ app.post('/book/add', jsonParser, (req, res) => {
     const price = req.body.price;
     const image = req.body.image;
 
-    let query = `CALL add_book('${series}', '${bookName}', '${publishingHouse}', ${year}, ${numberOfPages}, '${ageLimit}', '${description}', '${genre}', '${availability}', ${price}, '${image}', '${authorName}', '${authorSurname}');`;
+    let query = `CALL add_book('${series}', '${bookName}', '${publishingHouse}', ${year}, ${numberOfPages}, '${ageLimit}', '${description}', '${genre}', '${availability}', ${price}, '${image}', ${authorId});`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
+
+//change some book data
+app.put('/book/:id', jsonParser, (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+
+    const bookId = req.params['id'];
+    const series = req.body.series;
+    const bookName = req.body.bookName;
+    const publishingHouse = req.body.publishingHouse;
+    const year = req.body.year;
+    const numberOfPages = req.body.numberOfPages;
+    const ageLimit = req.body.ageLimit;
+    const description = req.body.description; 
+    const genre = req.body.genre;
+    const availability = req.body.availability;
+    const price = req.body.price;
+
+        let query = `UPDATE book SET `;
+        if(series) {
+            query += `series = '${series}'`;
+        } 
+        if(bookName) {
+            if(series) { query += `, `; }
+            query += `name = '${bookName}'`;
+        }
+        if(publishingHouse) {
+            if(series || bookName) { query += `, `;}
+            query += `publishing_house = '${publishingHouse}'`;
+        }
+        if(year) {
+            if(series || bookName || publishingHouse) { query += `, `;}
+            query += `year = '${year}'`;
+        }
+        if(numberOfPages) {
+            if(series || bookName || publishingHouse || year) { query += `, `;}
+            query += `number_of_pages = '${numberOfPages}'`;
+        }
+        if(ageLimit) {
+            if(series || bookName || publishingHouse || year || numberOfPages) { query += `, `;}
+            query += `age_limit = '${ageLimit}'`;
+        }
+        if(description) {
+            if(series || bookName || publishingHouse || year || numberOfPages || ageLimit) { query += `, `;}
+            query += `description = '${description}'`;
+        }
+        if(genre) {
+            if(series || bookName || publishingHouse || year || numberOfPages || ageLimit || description) { query += `, `;}
+            query += `genre = '${genre}'`;
+        }
+        if(availability) {
+            if(series || bookName || publishingHouse || year || numberOfPages || ageLimit || description || genre) { query += `, `;}
+            query += `availability = '${availability}'`;
+        }
+        if(price) {
+            if(series || bookName || publishingHouse || year || numberOfPages || ageLimit || description || genre || availability) { query += `, `;}
+            query += `price = '${price}'`;
+        }
+        query += ` WHERE book_id = ${bookId}; `;
+    
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+}) 
+
+app.delete('/book/:id', (req, res) => {
+    const bookId = req.params['id'];
+
+    let query = `CALL delete_book (${bookId})`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    });
+})
+
+//update author of book
+app.put('/book/author/:id', jsonParser, (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+
+    const bookId = req.params['id'];
+    const authorId = req.body.authorId;
+
+    let query = `UPDATE books_authors SET author_id = ${authorId} WHERE book_id = ${bookId}`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
+
+//update url-image of book
+app.put('/book/image/:id', jsonParser, (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+
+    const bookId = req.params['id'];
+    const image = req.body.image;
+
+    let query = `UPDATE book_image SET url_image = '${image}' WHERE book_id = ${bookId};`;
 
     connection.query(query, (err, result) => {
         if(err) {
