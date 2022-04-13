@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,600;1,700&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
-    <!-- <script src = "js/add_book.js"></script> -->
     <script>
         if (!sessionStorage.getItem('is_authorit'))
         {
@@ -88,27 +87,32 @@
 
     <div id = 'admin_block'>
         <div id = "admin_menu">
-            <a onclick="openAddingBook()">Добавить книгу</a><br><br>
-            <a onclick="openAddingAuthor()">Добавить автора</a><br><br>
-            <a onclick="openChangingDeletingBook()">Изменить/удалить книгу</a>
+            <a onclick="openAddingNews()">Добавить новость</a><br><br>
+            <a onclick="openChangingDeletingNews()">Изменить/удалить новость</a><br><br>
+            <a onclick="openAddingArticle()">Добавить статью</a><br><br>
+            <a onclick="openChangingDeletingArticle()">Изменить/удалить статью</a>
         </div>
 
         <script>
-            function openAddingBook() {
-                sessionStorage.setItem('page', 'add_book');
+            function openAddingNews() {
+                sessionStorage.setItem('page', 'add_news');
                 window.location.reload();
             }
-            function openChangingDeletingBook() {
-                sessionStorage.setItem('page', 'change_delete_book');
+            function openChangingDeletingNews() {
+                sessionStorage.setItem('page', 'change_delete_news');
                 window.location.reload();
             }
-            function openAddingAuthor() {
-                sessionStorage.setItem('page', 'add_author');
+            function openAddingArticle() {
+                sessionStorage.setItem('page', 'add_article');
+                window.location.reload();
+            }
+            function openChangingDeletingArticle() {
+                sessionStorage.setItem('page', 'change_delete_article');
                 window.location.reload();
             }
         </script>
 
-        <p id = "hello_admin">Добро пожаловать в аккаунт администратора ассортимента!</p>
+        <p id = "hello_admin">Добро пожаловать в аккаунт администратора блога и новостей!</p>
         <a class = "log_out_button" onclick="log_out()">Выйти</a>
 
         <!-- <div class = "working_with_data">
@@ -204,6 +208,6 @@
         
     <script src = "js/goods_in_basket.js"></script>
     <script src="js/menu.js"></script>
-    <script src = "js/add_book.js"></script>
+    <script src = "js/admin_of_news.js"></script>
 </body>
 </html>

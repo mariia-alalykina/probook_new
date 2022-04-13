@@ -1080,14 +1080,14 @@ input::-ms-input-placeholder
     color: #e6723d;
 }
 
-.news_text p:last-child
+/* .news_text p:last-child
 {
     font-family: 'Montserrat', sans-serif;
     color: #330066;
     width: 55%;
     background-color: #ffcc99; 
     padding-left: 2%;
-}
+} */
 
 /************************************************ CONTACTS.HTML *********************************************/
 
@@ -1661,6 +1661,10 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
 #choose_author {
     width: 300%;
     height: 30px;
+}
+
+.choose_news_date {
+    width: 25%;
 }
 /*********************************************** ACCOUNT.HTML *********************************************/
 

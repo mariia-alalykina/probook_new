@@ -14,12 +14,13 @@
     <script>
         if (sessionStorage.getItem('is_authorit'))
         {
-            if(sessionStorage.getItem('u_id') == 0 || sessionStorage.getItem('u_id') == -3 || sessionStorage.getItem('u_id') == -4 )
-            {
+            if(sessionStorage.getItem('u_id') == 0) {
                 window.location.href = 'admin.html';
-            }
-            else
-            {
+            } else if (sessionStorage.getItem('u_id') == -3) {
+                window.location.href = 'admin_books.html';
+            } else if (sessionStorage.getItem('u_id') == -4) {
+                window.location.href = 'admin_news.html';
+            } else {
                 window.location.href = 'account.html';
             }
         }
@@ -138,14 +139,14 @@
                             sessionStorage.setItem("is_authorit", 1);
                             sessionStorage.setItem("u_id", -3);
                             sessionStorage.setItem("u_name", 'adminBooks');
-                            window.location.href = 'admin.html';
+                            window.location.href = 'admin_books.html';
                             return false;
                         }
                         else if (user_email == 'adminNews' && user_psw == 'adminNews') {
                             sessionStorage.setItem("is_authorit", 1);
                             sessionStorage.setItem("u_id", -4);
                             sessionStorage.setItem("u_name", 'adminNews');
-                            window.location.href = 'admin.html';
+                            window.location.href = 'admin_news.html';
                             return false;
                         }
                         else if(checkEmail(user_email) && checkPsw(user_psw))

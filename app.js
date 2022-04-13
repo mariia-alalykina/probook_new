@@ -707,6 +707,124 @@ app.put('/book/image/:id', jsonParser, (req, res) => {
     })
 })
 
+//get all of the news 
+app.get('/news_list', (req, res) => {
+    let query = `SELECT * FROM news ORDER BY date DESC;`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: `Ошибка получения данных о новостях!`});
+        } else {
+            res.send(result);
+        }
+    })
+})
+
+//get the news by date
+app.get('/news/:date', (req, res) => {
+    const dateFrom = req.params['date'];
+
+    let date = new Date(Date.parse(dateFrom));
+    date.setDate(date.getDate() + 1);
+
+    const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
+
+    let query = `SELECT * FROM news WHERE date BETWEEN '${dateFrom}' AND '${dateTo}';`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: `Ошибка получения данных по новости за ${dateFrom}!`});
+        } else {
+            res.send(result);
+        }
+    })
+})
+
+//add news 
+app.post('/news', jsonParser, (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+
+    const header = req.body.header;
+    const image = req.body.image;
+    const text = req.body.text;
+
+    let data = [header, image, text];
+
+    let query = `INSERT INTO news VALUES(NOW(), ?, ?, ?);`;
+
+    connection.query(query, data, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
+
+//delete the news
+app.delete('/news/:date', (req, res) => {
+    const dateFrom = req.params['date'];
+
+    let date = new Date(Date.parse(dateFrom));
+    date.setDate(date.getDate() + 1);
+
+    const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
+
+    let query = `DELETE FROM news WHERE date BETWEEN '${dateFrom}' AND '${dateTo}';`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
+
+//update the news
+app.put('/news/:date', jsonParser, (req, res) => {
+    const dateFrom = req.params['date'];
+    const header = req.body.header;
+    const image = req.body.image;
+    const text = req.body.text;
+
+    let date = new Date(Date.parse(dateFrom));
+    date.setDate(date.getDate() + 1);
+
+    const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
+
+    let query = `UPDATE news SET `;
+
+    if(header) {
+        query += `header = '${header}'`;
+    } 
+    if(image) {
+        if (header) { query += `, `;}
+        query += `image = '${image}'`;
+    }
+    if(text) {
+        if (header || image) { query += `, `;}
+        query += `text = '${text}'`;
+    }
+
+    query += ` WHERE date BETWEEN '${dateFrom}' AND '${dateTo}';`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
+
+
+
 app.listen(3000, function() {
     console.log("Server started on 3000.");
 });
