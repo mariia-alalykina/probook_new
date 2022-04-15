@@ -90,7 +90,12 @@
             <a onclick="openAddingNews()">Добавить новость</a><br><br>
             <a onclick="openChangingDeletingNews()">Изменить/удалить новость</a><br><br>
             <a onclick="openAddingArticle()">Добавить статью</a><br><br>
-            <a onclick="openChangingDeletingArticle()">Изменить/удалить статью</a>
+            <a onclick="openChangingDeletingArticle()">Изменить/удалить статью</a><br><br>
+            <a onclick="openAddingArticleBooks()">Добавить книги для статей</a><br><br>
+            <a onclick="openChangingDeletingBookArticle()">Изменить/удалить книгу</a><br><br>
+            <a onclick="openAddingBooksToArticle()">Добавить книги в статью</a><br><br>
+            <a onclick="openDeletingBookFromArticle()">Удалить книгу из статьи</a>
+            
         </div>
 
         <script>
@@ -106,8 +111,24 @@
                 sessionStorage.setItem('page', 'add_article');
                 window.location.reload();
             }
+            function openAddingArticleBooks() {
+                sessionStorage.setItem('page', 'add_books_for_articles');
+                window.location.reload();
+            }
+            function openAddingBooksToArticle() {
+                sessionStorage.setItem('page', 'add_books_to_article');
+                window.location.reload();
+            }
             function openChangingDeletingArticle() {
                 sessionStorage.setItem('page', 'change_delete_article');
+                window.location.reload();
+            }
+            function openChangingDeletingBookArticle() {
+                sessionStorage.setItem('page', 'change_delete_book_article');
+                window.location.reload();
+            }
+            function openDeletingBookFromArticle() {
+                sessionStorage.setItem('page', 'delete_book_from_article');
                 window.location.reload();
             }
         </script>
@@ -209,5 +230,6 @@
     <script src = "js/goods_in_basket.js"></script>
     <script src="js/menu.js"></script>
     <script src = "js/admin_of_news.js"></script>
+    <script src = "js/admin_of_blog.js"></script>
 </body>
 </html>

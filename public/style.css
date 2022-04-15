@@ -948,6 +948,10 @@ input::-ms-input-placeholder
     color: #330066;
 }
 
+.galery {
+    text-align: center;
+}
+
 .post .galery table
 {
     position: relative;
@@ -1035,7 +1039,7 @@ input::-ms-input-placeholder
 
 .post a p
 {
-    width: 10%;
+    width: 12%;
     padding: 1%;
     margin-bottom: 0;
     border-radius: 2px;
@@ -1665,6 +1669,20 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
 
 .choose_news_date {
     width: 25%;
+}
+
+.choose_article_date {
+    width: 40%;
+}
+
+.choose_article_book,
+.choose {
+    width: 85%;
+}
+
+#input_article_book,
+#input_del_article_book {
+    background: url(images/arrow_down.png) 96% / 5% no-repeat #ffffff;
 }
 /*********************************************** ACCOUNT.HTML *********************************************/
 

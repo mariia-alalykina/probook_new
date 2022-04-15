@@ -1,5 +1,6 @@
 const { query } = require("express");
 const express = require("express");
+const { status } = require("express/lib/response");
 const mysql = require("mysql2");
 
 const connection = mysql.createConnection( {
@@ -177,8 +178,8 @@ app.get("/books", (req, res) => {
         } else {
             res.send(result);
         }
-    })
-})
+    });
+});
 
 //display all books with selected type of sort
 app.get("/books/all/:typeOfSort", (req, res) => {
@@ -332,7 +333,7 @@ app.get('/authorbooks/:author', (req, res) => {
         else {
             res.send(result);
         }
-    })
+    });
 });
 
 //get all of the books by year
@@ -413,7 +414,7 @@ app.post('/add_order_books', jsonParser, (req, res) => {
                 console.log(err);
                 res.send('false');
             }
-        })
+        });
     }    
 
     res.send('true');
@@ -445,7 +446,7 @@ app.get('/order_history_id/:id', (req, res) => {
             } else {
                 res.send(result);
             }
-        })   
+        });
 });
 
 //get order history by the date
@@ -479,7 +480,7 @@ app.get('/order_history_date/:date', (req, res) => {
             } else {
                 res.send(result);
             }
-        })   
+        }); 
 });
 
 //get user data by id
@@ -495,8 +496,8 @@ app.get('/users/:id', (req, res) => {
         } else {
             res.send(result);
         }
-    })
-})
+    });
+});
 
 //update user data by id
 app.put('/users/:id', jsonParser, (req, res) => {
@@ -539,8 +540,8 @@ app.put('/users/:id', jsonParser, (req, res) => {
         } else {
             res.send('true');
         }
-    })
-}) 
+    });
+});
 
 //delete user by id
 app.delete('/users/:id', (req, res) => {
@@ -555,8 +556,8 @@ app.delete('/users/:id', (req, res) => {
         } else {
             res.send('true');
         }
-    })
-})
+    });
+});
 
 //add new book
 app.post('/book', jsonParser, (req, res) => {
@@ -582,8 +583,8 @@ app.post('/book', jsonParser, (req, res) => {
         } else {
             res.send('true');
         }
-    })
-})
+    });
+});
 
 //change some book data
 app.put('/book/:id', jsonParser, (req, res) => {
@@ -651,8 +652,8 @@ app.put('/book/:id', jsonParser, (req, res) => {
         } else {
             res.send('true');
         }
-    })
-}) 
+    });
+});
 
 app.delete('/book/:id', (req, res) => {
     const bookId = req.params['id'];
@@ -667,7 +668,7 @@ app.delete('/book/:id', (req, res) => {
             res.send('true');
         }
     });
-})
+});
 
 //update author of book
 app.put('/book/author/:id', jsonParser, (req, res) => {
@@ -685,8 +686,8 @@ app.put('/book/author/:id', jsonParser, (req, res) => {
         } else {
             res.send('true');
         }
-    })
-})
+    });
+});
 
 //update url-image of book
 app.put('/book/image/:id', jsonParser, (req, res) => {
@@ -704,8 +705,8 @@ app.put('/book/image/:id', jsonParser, (req, res) => {
         } else {
             res.send('true');
         }
-    })
-})
+    });
+});
 
 //get all of the news 
 app.get('/news_list', (req, res) => {
@@ -718,8 +719,8 @@ app.get('/news_list', (req, res) => {
         } else {
             res.send(result);
         }
-    })
-})
+    });
+});
 
 //get the news by date
 app.get('/news/:date', (req, res) => {
@@ -739,8 +740,8 @@ app.get('/news/:date', (req, res) => {
         } else {
             res.send(result);
         }
-    })
-})
+    });
+});
 
 //add news 
 app.post('/news', jsonParser, (req, res) => {
@@ -761,8 +762,8 @@ app.post('/news', jsonParser, (req, res) => {
         } else {
             res.send('true');
         }
-    })
-})
+    });
+});
 
 //delete the news
 app.delete('/news/:date', (req, res) => {
@@ -782,8 +783,8 @@ app.delete('/news/:date', (req, res) => {
         } else {
             res.send('true');
         }
-    })
-})
+    });
+});
 
 //update the news
 app.put('/news/:date', jsonParser, (req, res) => {
@@ -820,8 +821,334 @@ app.put('/news/:date', jsonParser, (req, res) => {
         } else {
             res.send('true');
         }
+    });
+});
+
+//get main information about articles in blog
+app.get('/articles', (req, res) => {
+    let query = `SELECT article.date, article.title, article.image, article.introduction FROM article ORDER BY article.date DESC;`
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: 'Ошибка отображения данных блога.'});
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+//get all of the books for articles
+app.get('/books_for_article', (req, res) => {
+ 
+    let query = `SELECT books_for_articles.book_id, books_for_articles.subtitle, books_for_articles.image, books_for_articles.description FROM books_for_articles`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: `Ошибка получения книг для статей.`})
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+//get books in the selected article
+app.get('/books_for_article/:date', (req, res) => {
+    const dateFrom = req.params['date'];
+
+    let date = new Date(Date.parse(dateFrom));
+    date.setDate(date.getDate() + 1);
+
+    const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
+ 
+    let query = `SELECT books_for_articles.book_id, books_for_articles.subtitle, books_for_articles.image, books_for_articles.description FROM books_articles LEFT JOIN books_for_articles ON books_for_articles.book_id = books_articles.book_id WHERE books_articles.article_date BETWEEN '${dateFrom}' AND '${dateTo}'`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: `Ошибка получения книг для статьи за ${dateFrom}.`})
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+//get book for articles by id
+app.get('/books_for_article_id/:id', (req, res) => {
+    const bookId = req.params['id'];
+ 
+    let query = `SELECT books_for_articles.book_id, books_for_articles.subtitle, books_for_articles.image, books_for_articles.description FROM books_for_articles WHERE books_for_articles.book_id = ${bookId}`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: `Ошибка получения данных книги.`})
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+app.put('/books_for_article/:id', jsonParser, (req, res) => {
+    const bookId = req.params['id'];
+    const subtitle = req.body.header;
+    const image = req.body.image;
+    const description = req.body.text;
+
+    let query = `UPDATE books_for_articles SET `;
+
+    if(subtitle) {
+        query += `subtitle = '${subtitle}'`;
+    } 
+    if(image) {
+        if (subtitle) { query += `, `;}
+        query += `image = '${image}'`;
+    }
+    if(description) {
+        if (subtitle || image) { query += `, `;}
+        query += `description = '${description}'`;
+    }
+
+    query += ` WHERE book_id = ${bookId};`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    });
+});
+
+//get article by date 
+app.get('/article/:date', (req, res) => {
+    const dateFrom = req.params['date'];
+
+    let date = new Date(Date.parse(dateFrom));
+    date.setDate(date.getDate() + 1);
+
+    const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
+
+    let query = `SELECT * FROM article WHERE date BETWEEN '${dateFrom}' AND '${dateTo}';`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: `Ошибка отображения данных статьи за ${dateFrom}.`});
+        } else {
+            res.send(result);
+        }
     })
 })
+
+//add main information about article
+app.post('/article', jsonParser, (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+
+    const title = req.body.title;
+    const image = req.body.image;
+    const introduction = req.body.introduction;
+
+    let data = [title, image, introduction];
+
+    let query = `INSERT INTO article VALUES(NOW(), ?, ?, ?);`;
+
+    connection.query(query, data, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    });
+});
+
+//update the news
+app.put('/article/:date', jsonParser, (req, res) => {
+    const dateFrom = req.params['date'];
+    const title = req.body.header;
+    const image = req.body.image;
+    const text = req.body.text;
+
+    let date = new Date(Date.parse(dateFrom));
+    date.setDate(date.getDate() + 1);
+
+    const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
+
+    let query = `UPDATE article SET `;
+
+    if(title) {
+        query += `title = '${title}'`;
+    } 
+    if(image) {
+        if (title) { query += `, `;}
+        query += `image = '${image}'`;
+    }
+    if(text) {
+        if (title || image) { query += `, `;}
+        query += `introduction = '${text}'`;
+    }
+
+    query += ` WHERE date BETWEEN '${dateFrom}' AND '${dateTo}';`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    });
+});
+
+//delete article 
+app.delete('/article/:date', (req, res) => {
+    const dateFrom = req.params['date'];
+
+    let date = new Date(Date.parse(dateFrom));
+    date.setDate(date.getDate() + 1);
+
+    const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
+
+    let query = `DELETE FROM article WHERE date BETWEEN '${dateFrom}' AND '${dateTo}';`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
+
+//add book, which uses in the articles
+app.post('/books_for_article', jsonParser, (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+
+    const subtitle = req.body.subtitle;
+    const image = req.body.image;
+    const description = req.body.description;
+
+    let data = [subtitle, image, description];
+
+    let query = `INSERT INTO books_for_articles VALUES(NULL, ?, ?, ?);`;
+
+    connection.query(query, data, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
+
+//delete book, which uses in the articles
+app.delete('/books_for_article/:id', (req, res) => {
+    const bookId = req.params['id'];
+
+    let query = `DELETE FROM books_for_articles WHERE book_id = ${bookId};`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    })
+})
+
+//delete book from article
+app.delete('/books_for_article/:date/:id', (req, res) => {
+    const dateParam = req.params['date'];
+    const bookId = req.params['id'];
+
+    let date = new Date(Date.parse(dateParam));
+    date.setHours(date.getHours() + 3);
+
+    let dateQuery = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate() + ' ' + String(date.getHours()).replace(/^(.)$/, "0$1") + ':' + String(date.getMinutes()).replace(/^(.)$/, "0$1") + ':' + String(date.getSeconds()).replace(/^(.)$/, "0$1");
+
+    let query = `DELETE FROM books_articles WHERE article_date = '${dateQuery}' AND book_id = ${bookId};`;
+
+    connection.query(query, (err, result) => {
+        if(err || result.affectedRows === 0) {
+            date = new Date(Date.parse(dateParam));
+            date.setHours(date.getHours() + 2);
+            dateQuery = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate() + ' ' + String(date.getHours()).replace(/^(.)$/, "0$1") + ':' + String(date.getMinutes()).replace(/^(.)$/, "0$1") + ':' + String(date.getSeconds()).replace(/^(.)$/, "0$1");
+            query = `DELETE FROM books_articles WHERE article_date = '${dateQuery}' AND book_id = ${bookId};`;
+
+            connection.query(query, (err, result) => {
+                if(err || result.affectedRows === 0) {
+                    console.log(err);
+                    res.send('false');
+                } else {
+                    res.send('true');
+                }
+            });
+        } else {
+            res.send('true');
+        }
+    });
+});
+
+//get certain book in the selected article
+app.get('/books_for_article/:date/:id', (req, res) => {
+    const dateFrom = req.params['date'];
+    const bookId = req.body['id'];
+
+    let date = new Date(Date.parse(dateFrom));
+    date.setDate(date.getDate() + 1);
+
+    const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
+ 
+    let query = `SELECT books_for_articles.book_id, books_for_articles.subtitle, books_for_articles.image, books_for_articles.description FROM books_articles LEFT JOIN books_for_articles ON books_for_articles.book_id = books_articles.book_id WHERE books_articles.book_id = ${bookId} AND books_articles.article_date BETWEEN '${dateFrom}' AND '${dateTo}'`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: `Ошибка получения книги с id ${bookId} для статьи за ${dateFrom}.`})
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+//add certain book in the certain article
+app.post('/books_for_article/:date/:id', (req, res) => {
+    const dateParam = req.params['date'];
+    const bookId = req.params['id'];
+
+    let date = new Date(Date.parse(dateParam));
+    date.setHours(date.getHours() + 3);
+
+    let dateQuery = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate() + ' ' + String(date.getHours()).replace(/^(.)$/, "0$1") + ':' + String(date.getMinutes()).replace(/^(.)$/, "0$1") + ':' + String(date.getSeconds()).replace(/^(.)$/, "0$1");
+
+    let query = `INSERT INTO books_articles VALUES('${dateQuery}', ${bookId});`;
+
+    connection.query(query, (err, result) => {
+        if(err) {
+            date = new Date(Date.parse(dateParam));
+            date.setHours(date.getHours() + 2);
+            dateQuery = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate() + ' ' + String(date.getHours()).replace(/^(.)$/, "0$1") + ':' + String(date.getMinutes()).replace(/^(.)$/, "0$1") + ':' + String(date.getSeconds()).replace(/^(.)$/, "0$1");
+            query = `INSERT INTO books_articles VALUES('${dateQuery}', ${bookId});`;
+
+            connection.query(query, (err, result) => {
+                if(err) {
+                    console.log(err);
+                    res.send('false');
+                } else {
+                    res.send('true');
+                }
+            })
+        } else {
+            res.send('true');
+        }
+    });
+});
 
 
 

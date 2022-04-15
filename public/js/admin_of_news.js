@@ -112,7 +112,7 @@ function createAddNewsBlock() {
     document.getElementById('admin_block').append($newsData);
 }
 
-function createSelectionDate(dates, $select) {
+function createSelectionShortDate(dates, $select) {
     for (let i = 0; i < dates.length; i++) {
         let $date = createElement('option');
         let date = dates[i].date;
@@ -156,7 +156,7 @@ function createChangeDeleteNewsBlock() {
         .then (statusFunc)
         .then ((response) => {return response.json();})
         .then ((dates) => {
-            createSelectionDate(dates, document.getElementById('input_news_date'));           
+            createSelectionShortDate(dates, document.getElementById('input_news_date'));           
         })
         .catch((err) => { console.log(err); })  
     
@@ -233,7 +233,7 @@ function createChangeDeleteNewsBlock() {
         .then (statusFunc)
         .then ((response) => {return response.json();})
         .then ((dates) => {
-            createSelectionDate(dates, document.getElementById('input_del_news_date'));           
+            createSelectionShortDate(dates, document.getElementById('input_del_news_date'));           
         })
         .catch((err) => { console.log(err); })   
 
@@ -351,14 +351,31 @@ function deleteNews() {
 }
 
 window.onload = function() {
-    if(sessionStorage.getItem('page') === 'add_news') {
-        createAddNewsBlock();
-    } else if (sessionStorage.getItem('page') === 'change_delete_news') {
-        createChangeDeleteNewsBlock();
-    } else if (sessionStorage.getItem('page') === 'add_article') {
-        createAddArticleBlock();
-    } else if (sessionStorage.getItem('page') === 'change_delete_article') {
-        createChangeDeleteArticleBlock();
+    switch(sessionStorage.getItem('page')) {
+        case 'add_news': 
+            createAddNewsBlock();
+            break;
+        case 'change_delete_news':
+            createChangeDeleteNewsBlock();
+            break;
+        case 'add_article':
+            createAddArticleBlock();
+            break;
+        case 'add_books_for_articles':
+            createAddArticleBooksBlock();
+            break;
+        case 'add_books_to_article':
+            createAddBooksToArticleBlock();
+            break;
+        case 'change_delete_article':
+            createChangeDeleteArticleBlock();
+            break;
+        case 'change_delete_book_article':
+            createChangeDeleteBookArticleBlock();
+            break;
+        case 'delete_book_from_article':
+            createDeleteBookFromArticle();
+            break;
     }
 }
 
