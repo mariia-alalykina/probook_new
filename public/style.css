@@ -1684,6 +1684,15 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
 #input_del_article_book {
     background: url(images/arrow_down.png) 96% / 5% no-repeat #ffffff;
 }
+
+#account_admin_block h2 {
+    display: inline-block;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    color: #330066;
+    left: 25%;
+}
 /*********************************************** ACCOUNT.HTML *********************************************/
 
 #account_menu {
@@ -1714,7 +1723,8 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
     cursor: pointer;
 }
 
-#account_block
+#account_block,
+#account_admin_block
 {
     position: relative;
     display: block;
@@ -1727,14 +1737,16 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
     left: 34%;
 }
 
-#order_history
+#order_history,
+#logs_history
 {
     position: relative;
     display: inline-block;
     width: 100%;
 }
 
-#order_history > p
+#order_history > p,
+#logs_history > p
 {
     display: inline-block;
     position: relative;
@@ -1746,7 +1758,12 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
     text-align: center;
 }
 
-#order_history table
+#logs_history > p {
+    top: 35px;
+}
+
+#order_history table,
+#logs_history table
 {
     width: 95%;
     margin: 2%;
@@ -1756,12 +1773,19 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
     border: 1px dashed #003300;
 }
 
-#order_history tr
+#logs_history table {
+    width: 65%;
+    left: 15%;
+}
+
+#order_history tr,
+#logs_history tr
 {    
     position: relative;    
 }
 
-#order_history td
+#order_history td,
+#logs_history td
 {   
     border-left: 1px dashed #003300;
     border-right: 1px dashed #003300;
@@ -1770,14 +1794,16 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
     overflow: hidden;
 }
 
-#order_history th
+#order_history th,
+#logs_history th
 {
     position: relative;
     border: 1px dashed #003300;
     color: #336633;
 }
 
-#order_history a
+#order_history a,
+#logs_history a
 {
     position: relative;
     text-decoration: none;
@@ -1787,7 +1813,9 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
 #order_history .number,
 #order_history .order_id,
 #order_history .cost,
-#order_history .amount
+#order_history .amount,
+#logs_history .log_id,
+#logs_history .user_id
 {
     text-align: center;
     padding: 0;

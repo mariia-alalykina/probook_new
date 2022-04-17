@@ -1150,7 +1150,18 @@ app.post('/books_for_article/:date/:id', (req, res) => {
     });
 });
 
+app.get('/logs', (req, res) => {
+    let query = `SELECT * FROM logs;`;
 
+    connection.query(query, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.json({error: 'Ошибка получения логов.'});
+        } else {
+            res.send(result);
+        }
+    });
+});
 
 app.listen(3000, function() {
     console.log("Server started on 3000.");

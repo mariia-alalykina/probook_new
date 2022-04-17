@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,600;1,700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        if (!sessionStorage.getItem('is_authorit'))
+        {
+            alert('У вас нет доступа к этой странице. Пожалуйста, авторизуйтесь.');
+            window.location.href = 'login.html';
+        }
+    </script>
+    <script>
+        function log_out()
+        {
+            if(confirm('Вы действительно хотите выйти из аккаунта?')) {
+                sessionStorage.removeItem('is_authorit');
+                sessionStorage.removeItem('u_id');
+                sessionStorage.removeItem('u_name');
+                if(sessionStorage.getItem('page')) {
+                    sessionStorage.removeItem('page');
+                }
+                window.location.href = "login.html";
+            }
+        }
+    </script>
+    <title>Личный кабинет</title>
+</head>
+
+<header>
+    <div class = "site_name"><a href = "index.html"><img src="images/site_name.png" width="533" height="433"></a></div>
+    <div class = "hor_menu">
+        <ul>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="delivery.html">Доставка и оплата</a></li>
+            <li><a href="news.html">Новости</a></li>
+            <li><a href="blog.html">Блог</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+        <ul>
+            <li><a href="#">RU</a></li>
+            <li><a href="#">UA</a></li>
+        </ul>
+    </div>
+</header>
+
+<body id = "index">
+    <div class = "under_header">
+        <div class = "catalog">
+            <button class = "catalog_btn" onclick="showMenu()">≡ Каталог товаров</button>
+            <div class = "drop_catalog" id = "drop_down">
+                <a data-genre = "all" onclick="show_by_genre(this)">Все книги</a>
+                <a data-genre = "fiction" onclick="show_by_genre(this)">Художественная литература</a>
+                <a data-genre = "non-fiction" onclick="show_by_genre(this)">Научно-популярная литература</a>
+                <a data-genre = "study" onclick="show_by_genre(this)">Учебная литература</a>
+                <a data-genre = "self-edu" onclick="show_by_genre(this)">Саморазвитие</a>
+                <a data-genre = "bio" onclick="show_by_genre(this)">Биографии, мемуары</a>
+            </div>           
+        </div>
+        <div class = "searching">
+            <form>
+                <input name="_search" id = "search" placeholder="Поиск по автору или названию" type="search">
+                <button type="submit" onclick="return doSearching()"> </button>
+            </form>
+            <script>
+                function doSearching()
+                {
+                    let data_text = document.getElementById('search').value;
+                    sessionStorage.setItem('search', data_text);
+                    window.location.href = 'search.html';
+                    return false;
+                }
+            </script>        
+        </div>
+        <div id = "img_basket">
+            <a href = "basket.html"><img src="images/basket.png"></a><span></span>
+        </div>
+        <div class = "img_acc">
+            <a href = "login.html"><img src="images/acc.png"></a>
+        </div>
+    </div>
+
+    <div id = "account_admin_block">
+        <div style="display: block;position: absolute;width: 100%;top: 0px;z-index: 10">
+            <h2>Добро пожаловать в личный кабинет администратора!</h2>
+            <a id = "log_out" onclick="log_out()">Выйти</a>
+        </div>
+
+        <div id ="logs_history">
+            <!-- <p>История заказов пользователя (имя)</p>
+            <table>
+                <th>Номер заказа</th><th>Дата</th><th>Название книги</th><th>Автор</th><th>Количество</th><th>Цена</th><th>Сумма заказа</th>
+                <tr>
+                    <td class = "order_id">1</td><td>2021-06-06 15:57</td><td><a href = "book.html" data-id = "1" onclick="getId(this)"><p>Эмоциональная зрелость: источник внутренней силы</p></a></td><td>Вания Маркович</td><td class = "number">1</td><td class = "cost"><span>150</span> грн.</td><td class = "amount">280 грн.</td>
+                </tr>
+                <tr>
+                    <td class = "order_id"></td><td></td><td><a href = "book.html" data-id = "2" onclick="getId(this)"><p>НЕ НОЙ. Вековая мудрость, которая гласит: хватит жаловаться пора становиться богатым</p></a></td><td>Джен Синсеро</td><td class = "number">1</td><td class = "cost"><span>125</span> грн.</td><td class = "amount"></td>
+                </tr>
+            </table>  -->       
+        </div>
+        <script>            
+        </script>
+    </div>
+    
+    <script src = "js/show_logs.js"></script>
+    <script src = "js/goods_in_basket.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+</html>
