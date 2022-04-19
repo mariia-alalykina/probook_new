@@ -420,6 +420,141 @@ app.post('/add_order_books', jsonParser, (req, res) => {
     res.send('true');
 });
 
+//get order history by order ID
+app.get('/order_history_order_id/:id', (req, res) => {
+    const id = Number.parseInt(req.params['id'], 10);
+
+    let query = `SELECT book_order.order_id, book_order.date, book_order.phone_number, book_order.region, book_order.town, 
+    book_order.post_office, book_order.payment_method, book_order.order_status, book_order.total_cost,
+    order_details.book_id, order_details.number_of_books, order_details.cost_of_book,
+    book.name, authors.author_name, authors.author_surname
+    FROM book_order 
+    LEFT JOIN order_details 
+    ON order_details.order_id = book_order.order_id 
+    LEFT JOIN book
+    ON book.book_id = order_details.book_id
+    LEFT JOIN books_authors
+    ON books_authors.book_id = order_details.book_id
+    LEFT JOIN authors 
+    ON authors.author_id = books_authors.author_id
+    WHERE book_order.order_id = ${id}`;
+
+        connection.query(query, (err, result) => {
+            if(err) {
+                console.log(err);
+                res.json({error: `Ошибка отображения данных заказа с id ${id}`});
+            } else {
+                res.send(result);
+            }
+        });
+});
+
+//update order information by order id
+app.put('/order_history_order_id/:id', jsonParser, (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+
+    const orderId = req.params['id'];
+    const phone = req.body.phone;
+    const region = req.body.region;
+    const town = req.body.town;
+    const postOffice = req.body.postOffice;
+    const status = req.body.status;
+
+    let query = `UPDATE book_order SET `;
+    
+    if (phone) {
+        query += `phone_number = '${phone}'`;
+    }
+    if (region) {
+        if(phone) { query += `, `}
+        query += `region = '${region}'`;
+    }
+    if (town) {
+        if(phone || region) { query += `, ` }
+        query += `town = '${town}'`;
+    }
+    if (postOffice) {
+        if(phone || region || town) { query += `, ` }
+        query += `post_office = '${postOffice}'`;
+    }
+    if (status) {
+        if(phone || region || town || postOffice) { query += `, ` }
+        query += `order_status = '${status}'`;
+    }
+    query += ` WHERE order_id = ${orderId}`;
+
+    connection.query(query, (err, result) => {
+        if(err || result.affectedRows == 0) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    });
+});
+
+//delete order by order id
+app.delete('/order_history_order_id/:id', (req, res) => {
+    const orderId = req.params['id'];
+
+    let query = `DELETE FROM book_order WHERE order_id = ${orderId}`;
+
+    connection.query(query, (err, result) => {
+        if (err || result.affectedRows == 0) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    });
+});
+
+//add book into the order
+app.post('/order_books/:orderId/:bookId/:numberOfBooks', (req, res) => {   
+    const orderId = req.params['orderId'];
+    const bookId = req.params['bookId'];
+    const numberOfBooks = req.params['numberOfBooks'];
+
+    let book = [orderId, bookId, numberOfBooks];
+
+    let query = `INSERT INTO order_details VALUES (?, ?, ?, (SELECT book.price FROM book WHERE book.book_id = ${bookId}));`
+
+    connection.query(query, book, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('false');
+        } else {
+            query = `CALL change_order_total_cost_after_adding_book(${orderId});`;
+
+            connection.query(query, (err), (result) => {
+                if(err) {
+                    console.log(err);
+                    res.send('false');
+                } else {
+                    res.send('true');
+                }
+            });
+        }
+    });
+});
+
+//delete book from order by order id
+app.delete('/order_books/:orderId/:bookId', (req, res) => {
+    const orderId = req.params['orderId'];
+    const bookId = req.params['bookId'];
+
+    let query = `DELETE FROM order_details WHERE order_id = ${orderId} AND book_id = ${bookId}`;
+
+    connection.query(query, (err, result) => {
+        if (err || result.affectedRows == 0) {
+            console.log(err);
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    });
+});
+
 //get order history by user ID
 app.get('/order_history_id/:id', (req, res) => {
     const id = Number.parseInt(req.params['id'], 10);
@@ -458,7 +593,7 @@ app.get('/order_history_date/:date', (req, res) => {
 
     const dateTo = String(date.getFullYear()).replace(/^(.)$/, "0$1") +'-'+ String(date.getMonth() + 1).replace(/^(.)$/, "0$1") + '-' + date.getDate();
 
-    let query = `SELECT book_order.order_id, book_order.date, book_order.phone_number, book_order.region, book_order.town, 
+    let query = `SELECT book_order.order_id, book_order.user_id, book_order.date, book_order.phone_number, book_order.region, book_order.town, 
     book_order.post_office, book_order.payment_method, book_order.order_status, book_order.total_cost,
     order_details.book_id, order_details.number_of_books, order_details.cost_of_book,
     book.name, authors.author_name, authors.author_surname
@@ -471,7 +606,7 @@ app.get('/order_history_date/:date', (req, res) => {
     ON books_authors.book_id = order_details.book_id
     LEFT JOIN authors 
     ON authors.author_id = books_authors.author_id
-    WHERE book_order.date BETWEEN ${dateFrom} AND ${dateTo}`;
+    WHERE book_order.date BETWEEN '${dateFrom}' AND '${dateTo}'`;
 
         connection.query(query, (err, result) => {
             if(err) {

@@ -1556,7 +1556,8 @@ input[type=tel], textarea, #order input
 
 /************************************************* ADMIN.HTML *******************************************/
 #hello_admin,
-#account_block h2
+#account_block h2,
+#hello_operator
 {
     display: inline-block; 
     position: relative; 
@@ -1564,6 +1565,10 @@ input[type=tel], textarea, #order input
     font-size: 1.2em; 
     color: #330066; 
     left: 25%;     
+}
+
+#hello_operator {
+    left: 30%;
 }
 
 #admin_block
@@ -1692,6 +1697,10 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
     font-size: 1.2em;
     color: #330066;
     left: 25%;
+}
+
+#input_order_status {
+    width: 225%;
 }
 /*********************************************** ACCOUNT.HTML *********************************************/
 
