@@ -29,6 +29,11 @@ function createHistoryTable(orders) {
         $noOrders.innerHTML = 'История заказов пуста!';
         $historyBlock.append($noOrders);
     } else {
+        let $createPDFButton = createElement('button', 'createPDF');
+        $createPDFButton.setAttribute('onclick', 'createPDF()');
+        $createPDFButton.innerHTML = 'Создать PDF';
+        $historyBlock.append($createPDFButton);
+        
         let $historyTable = createElement('table');
 
         let $nameId = createElement('th');
@@ -133,6 +138,11 @@ function createHistoryTableByDate(orders) {
         $noOrders.innerHTML = 'История заказов пуста!';
         $historyBlock.append($noOrders);
     } else {
+        let $createPDFButton = createElement('button', 'createPDF');
+        $createPDFButton.setAttribute('onclick', 'createPDF()');
+        $createPDFButton.innerHTML = 'Создать PDF';
+        $historyBlock.append($createPDFButton);
+        
         let $historyTable = createElement('table');
 
         let $nameId = createElement('th');

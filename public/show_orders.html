@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,600;1,700&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         if (!sessionStorage.getItem('is_authorit'))
         {
@@ -88,7 +89,22 @@
     <div id = 'order_history'>
 
     </div>
-        
+
+    <script>
+        function createPDF() {
+            let $table = document.querySelector('#order_history table');
+
+            var opt = {
+                margin: 10,
+                filename: 'order_history.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+                };
+
+            html2pdf().from($table).set(opt).save();
+        }
+    </script>
     <script src = "js/goods_in_basket.js"></script>
     <script src="js/menu.js"></script>
     <script src = "js/show_order_history_operator.js"></script>

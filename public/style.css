@@ -1702,6 +1702,21 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
 #input_order_status {
     width: 225%;
 }
+
+.createPDF {
+    display: inline-block;
+    position: relative;
+    left: 35%;
+    background: darkgreen;
+    border: 1px solid darkcyan;
+    border-radius: 5px;
+    color: white;
+}
+
+.createPDF:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
 /*********************************************** ACCOUNT.HTML *********************************************/
 
 #account_menu {
@@ -1759,12 +1774,13 @@ background: url(images/arrow_down.png) 96% / 10% no-repeat #ffffff;
 {
     display: inline-block;
     position: relative;
-    width: 100%;
+    width: 50%;
     font-family: 'Montserrat',sans-serif;
     font-size: 1.2em;
     color: #336633;
     font-weight: 600;
     text-align: center;
+    left: 25%;
 }
 
 #logs_history > p {
