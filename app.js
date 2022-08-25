@@ -19,17 +19,16 @@ function createConnection() {
           console.log("Подключение к серверу MySQL успешно установлено");
         }
      });
-}
+};
 
-createConnection();
-
- // закрытие подключения
- /* connection.end(function(err) {
-  if (err) {
-    return console.log("Ошибка: " + err.message);
-  }
-  console.log("Подключение закрыто");
-}); */
+function closeConnection() {
+    connection.end(function(err) {
+      if (err) {
+        return console.log("Ошибка: " + err.message);
+      }
+      console.log("Подключение закрыто");
+    });
+};
 
 const app = express();
 const path = require('path');
@@ -169,14 +168,17 @@ app.post("/signup", jsonParser, (req, res) => {
 
 //get all of the books
 app.get("/books", (req, res) => {
+    createConnection();
     let query = `SELECT book_image.url_image, book.price, book.name, authors.author_id, authors.author_name, authors.author_surname, book.book_id, book.series, book.publishing_house, book.year, book.number_of_pages, book.age_limit, book.description, book.availability FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id;`;
 
     connection.query(query, (err, result) => {
         if (err) {
             console.log(err);
             res.json({error: 'Ошибка получения данных книг!'});
+            closeConnection();
         } else {
             res.send(result);
+            closeConnection();
         }
     });
 });
