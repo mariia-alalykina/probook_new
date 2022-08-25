@@ -21,6 +21,8 @@ function createElement(tag, className) {
 function createHistoryTable(orders) {
     let $headOfHistory = createElement('p');
     $headOfHistory.innerHTML = 'История заказов пользователя ' + sessionStorage.getItem('u_name');
+    let $noOrdersBr = createElement('br');
+    $historyBlock.append($noOrdersBr);
     $historyBlock.append($headOfHistory);
 
     if (orders.length === 0) {
