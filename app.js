@@ -32,6 +32,8 @@ function closeConnection() {
 
 createConnection();
 
+setInterval(() => connection.query("SELECT 1"), 5000);
+
 const app = express();
 const path = require('path');
 const { isBuffer } = require("util");
@@ -170,7 +172,6 @@ app.post("/signup", jsonParser, (req, res) => {
 
 //get all of the books
 app.get("/books", (req, res) => {
-    if (!connection.connection || connection.connection._closing) { createConnection(); }
     let query = `SELECT book_image.url_image, book.price, book.name, authors.author_id, authors.author_name, authors.author_surname, book.book_id, book.series, book.publishing_house, book.year, book.number_of_pages, book.age_limit, book.description, book.availability FROM books_authors LEFT JOIN book ON book.book_id = books_authors.book_id LEFT JOIN authors ON authors.author_id = books_authors.author_id LEFT JOIN book_image ON book_image.book_id = books_authors.book_id;`;
 
     connection.query(query, (err, result) => {
